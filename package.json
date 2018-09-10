@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/amrutjadhav/TicketChecker#readme",
   "dependencies": {
+    "express": "^4.16.3",
     "trello": "^0.9.0"
   }
 }
