@@ -1,5 +1,4 @@
 const path = require('path')
-const cardRules = path.join('__dirname', 'lib', 'rules', 'card')
 
 class EventHandler {
   constructor(request) {
@@ -9,14 +8,10 @@ class EventHandler {
   eventDispatcher() {
     switch(this.action['type']) {
       case 'createCard':
-        handlerCreateCard()
+        new process.env.app.handler.card(this.action)
         break
       default:
         return
     }
-  }
-
-  handlerCreateCard() {
-
   }
 }

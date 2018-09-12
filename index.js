@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 
-process.env.app = path.join(__dirname, 'config', 'app')
+process.env.app = require(path.join(__dirname, 'config', 'app'))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
