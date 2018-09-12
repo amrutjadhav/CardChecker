@@ -1,0 +1,33 @@
+{
+  "name": "ticket-checker",
+  "version": "1.0.0",
+  "description": "Trello ticket checker to maintain the ticket consistency",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amrutjadhav/TicketChecker.git"
+  },
+  "keywords": [
+    "trello",
+    "ticket",
+    "checker"
+  ],
+  "author": "Amrut Jadhav",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/amrutjadhav/TicketChecker/issues"
+  },
+  "homepage": "https://github.com/amrutjadhav/TicketChecker#readme",
+  "dependencies": {
+    "@slack/client": "^3.16.1-sec.2",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "trello": "^0.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0"
+  }
+}
