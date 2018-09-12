@@ -11,6 +11,6 @@ app.post('/', (req, res) => {
     process.env.app.eventHandler(req)
 })
 
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log('Listening on 3000')
 })
