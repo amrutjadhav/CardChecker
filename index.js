@@ -7,7 +7,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 // post trello webhook
 app.post('/', (req, res) => {
-    new eventHandler(req)
+    new eventHandler(req.body)
 })
 
 app.listen(8080, () => {
