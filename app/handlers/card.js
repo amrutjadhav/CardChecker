@@ -4,14 +4,14 @@ const slackPublisher = require('../publishers/slack')
 class Card {
   constructor(action) {
     this.action = action
-    handlerDispatcher()
+    this.handlerDispatcher()
   }
 
   handlerDispatcher() {
     switch(this.action['type']) {
-      case 'createCard':
-        handlerCreateCard()
-        break;
+    case 'createCard':
+      this.handlerCreateCard()
+      break
     }
   }
 
@@ -20,15 +20,15 @@ class Card {
       'titleWordCount',
       'titleWordCount',
       'dueDate'
-    ];
-    executeRules(rules)
+    ]
+    this.executeRules(rules)
   }
 
-  executeRules(card, rules) {
+  executeRules(rules) {
     let card = this.action['card']
     rules.forEach(function(rule) {
       // @todo add method check here
-      result = cardRules[rule]()
+      let result = cardRules[rule](card)
       if(!result['success']) {
         new slackPublisher(result['msg'])
       }

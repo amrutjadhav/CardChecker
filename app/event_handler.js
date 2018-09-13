@@ -1,4 +1,3 @@
-const path = require('path')
 const cardHandler = require('./handlers/card')
 
 class EventHandler {
@@ -8,11 +7,13 @@ class EventHandler {
 
   eventDispatcher() {
     switch(this.action['type']) {
-      case 'createCard':
-        new cardHandler(this.action)
-        break
-      default:
-        return
+    case 'createCard':
+      new cardHandler(this.action)
+      break
+    default:
+      return
     }
   }
 }
+
+module.exports = EventHandler
