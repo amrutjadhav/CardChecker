@@ -1,6 +1,6 @@
-const { IncomingWebhook } = require('@slack/client');
-const url = process.env.SLACK_WEBHOOK_URL;
-const webhook = new IncomingWebhook(url);
+const { IncomingWebhook } = require('@slack/client')
+const url = process.env.SLACK_WEBHOOK_URL
+const webhook = new IncomingWebhook(url)
 
 class Slack {
   constructor(options) {
@@ -16,6 +16,8 @@ class Slack {
         } else {
             console.log('Message sent: ', res);
         }
-    });
+    })
   }
 }
+
+module.exports = Slack
