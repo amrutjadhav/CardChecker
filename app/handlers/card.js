@@ -13,6 +13,7 @@ class Card {
       this.handlerCreateCard()
       break
     }
+    return
   }
 
   handlerCreateCard() {
@@ -25,7 +26,7 @@ class Card {
   }
 
   executeRules(rules) {
-    let card = this.action['card']
+    let card = this.action['data']['card']
     rules.forEach(function(rule) {
       // @todo add method check here
       let result = cardRules[rule](card)
