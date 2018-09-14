@@ -19,8 +19,10 @@ class Card {
   handlerCreateCard() {
     let rules = [
       'titleWordCount',
-      'titleWordCount',
-      'dueDate'
+      'titleTitleize',
+      'dueDate',
+      'labels',
+      'members'
     ]
     this.executeRules(rules)
   }
@@ -35,7 +37,7 @@ class Card {
       let result = cardRules[rule](card)
       if(!result['success']) {
         ticketValid = false
-        errorMessages.push(result)
+        errorMessages.push(result['msg'])
       }
     })
     if(!ticketValid) {
@@ -47,7 +49,7 @@ class Card {
   buildMessage(errorMessages) {
     let msg = ":white_frowning_face: Awwww! Looks like you didn't followed the trello ticket standards \n"
     errorMessages.forEach((error) => {
-      msg += "- " + error['msg'] + "\n"
+      msg += "- " + error + "\n"
     })
 
     msg +=  'https://trello.com/c/' + this.action['data']['card']['shortLink']
