@@ -47,9 +47,9 @@ class Card {
   }
 
   buildMessage(errorMessages) {
-    let msg = ":white_frowning_face: Awwww! Looks like you didn't followed the trello ticket standards \n"
+    let msg = ':white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
     errorMessages.forEach((error) => {
-      msg += "- " + error + "\n"
+      msg += '- ' + error + '\n'
     })
 
     msg +=  'https://trello.com/c/' + this.action['data']['card']['shortLink']
