@@ -1,10 +1,12 @@
+const msgTemplate = require('../message_template')
+
 module.exports = {
   titleWordCount: (card) => {
     let title = card['name']
     let wordsCount = title.split(' ').length
 
     if(wordsCount < 2)
-      return {success: false, msg: 'Describe the ticket title in more descriptive way'}
+      return {success: false, msg: msgTemplate['rules']['card']['titleWordCount']}
     return {success: true}
   },
 
@@ -12,15 +14,25 @@ module.exports = {
     let title = card['name']
 
     if(!title.match(/^[A-Z].*$/))
-      return {success: false, msg: 'no titlezed string'}
+      return {success: false, msg: msgTemplate['rules']['card']['titleTitleize']}
     return {success: true}
   },
 
   dueDate: (card) => {
-    let title = card['name']
+    if(!card['due'])
+      return {success: false, msg: msgTemplate['rules']['card']['dueDate']}
+    return {success: true}
+  },
 
-    if(!title['due'])
-      return {success: false, msg: 'no due date'}
+  labels: (card) => {
+    if(card['idLabels'].length < 2)
+      return {success: false, msg: msgTemplate['rules']['card']['labels']}
+    return {success: true}
+  },
+
+  members: (card) => {
+    if(card['idMembers'].length < 1)
+      return {success: false, msg: msgTemplate['rules']['card']['labels']}
     return {success: true}
   }
 }

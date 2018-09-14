@@ -1,7 +1,7 @@
 const { IncomingWebhook } = require('@slack/client')
 const url = process.env.SLACK_WEBHOOK_URL
 const webhook = new IncomingWebhook(url)
-const logger = require('./config/logger')
+const logger = require('../../config/logger')
 
 class Slack {
   constructor(options) {
