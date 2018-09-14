@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const eventHandler = require('./app/event_handler')
 const request = require('request-promise-native')
-const logger = require('./config/logger').getLogger();
+const logger = require('./config/logger');
 
 const trelloWebhookOptions =
 
