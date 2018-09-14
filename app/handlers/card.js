@@ -27,13 +27,33 @@ class Card {
 
   executeRules(rules) {
     let card = this.action['data']['card']
+    let ticketValid = true
+    let errorMessages = []
+
     rules.forEach(function(rule) {
       // @todo add method check here
       let result = cardRules[rule](card)
       if(!result['success']) {
-        new slackPublisher({msg: result['msg']})
+        ticketValid = false
+        errorMessages.push(result)
       }
     })
+    if(!ticketValid) {
+      let msg = this.buildMessage(errorMessages)
+      new slackPublisher({msg: msg})
+    }
+  }
+
+  buildMessage(errorMessages) {
+    let msg = ":white_frowning_face: Awwww! Looks like you didn't followed the trello ticket standards \n"
+    errorMessages.forEach((error) => {
+      msg += "- " + error['msg'] + "\n"
+    })
+
+    msg +=  'https://trello.com/c/' + this.action['data']['card']['shortLink']
+    return {
+      text: msg
+    }
   }
 }
 

@@ -26,20 +26,21 @@ app.post('/', function(req, res) {
 app.listen(8080, () => {
   logger.info('Listening on 3000')
 
-  request({
-    uri: 'https://api.trello.com/1/tokens/' + process.env.TRELLO_TOKEN + '/webhooks/?key=' + process.env.TRELLO_KEY,
-    method: 'POST',
-    body: {
-      description: 'TicketChecker webhook',
-      idModel: process.env.TRELLO_MODEL_ID,
-      callbackURL: process.env.TRELLO_CALLBACK_URL
-    },
-    json: true
-  })
-  .then((result) => {
-    logger.info('webhook subscribed')
-  })
-  .catch((error) => {
-    logger.error(error)
-  })
+  // Webhook request for trello
+  // request({
+  //   uri: 'https://api.trello.com/1/tokens/' + process.env.TRELLO_TOKEN + '/webhooks/?key=' + process.env.TRELLO_KEY,
+  //   method: 'POST',
+  //   body: {
+  //     description: 'TicketChecker webhook',
+  //     idModel: process.env.TRELLO_MODEL_ID,
+  //     callbackURL: process.env.TRELLO_CALLBACK_URL
+  //   },
+  //   json: true
+  // })
+  // .then((result) => {
+  //   logger.info('webhook subscribed')
+  // })
+  // .catch((error) => {
+  //   logger.error(error)
+  // })
 })
