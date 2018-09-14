@@ -7,8 +7,6 @@ const log4js = require('log4js').getLogger()
 const trelloWebhookOptions =
 
 app.get('/', (req, res) => {
-  console.log('from get')
-  console.log(req)
   res.send('Hello World!')
 })
 
@@ -38,9 +36,9 @@ app.listen(8080, () => {
     json: true
   })
   .then((result) => {
-    console.log('webhook subscribed')
+    log4js.info('webhook subscribed')
   })
   .catch((error) => {
-    console.log(error)
+    log4js.error(error)
   })
 })
