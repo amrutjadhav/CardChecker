@@ -1,6 +1,7 @@
 const { IncomingWebhook } = require('@slack/client')
 const url = process.env.SLACK_WEBHOOK_URL
 const webhook = new IncomingWebhook(url)
+const logger = require('./config/logger')
 
 class Slack {
   constructor(options) {
@@ -12,9 +13,9 @@ class Slack {
 
     webhook.send(msg, function(err, res) {
       if (err) {
-        console.log('Error:', err)
+        logger.error('Error:', err)
       } else {
-        console.log('Message sent: ', res)
+        logger.info('Message sent: ', res)
       }
     })
   }

@@ -1,18 +1,19 @@
 const cardHandler = require('./handlers/card')
 
 class EventHandler {
-  constructor(request) {
-    this.action = request
+  constructor(action) {
+    this.eventDispatcher(action)
   }
 
-  eventDispatcher() {
-    switch(this.action['type']) {
+  eventDispatcher(action) {
+    switch(action['type']) {
     case 'createCard':
-      new cardHandler(this.action)
+      new cardHandler(action)
       break
     default:
       return
     }
+    return
   }
 }
 

@@ -30,7 +30,7 @@ class Card {
       // @todo add method check here
       let result = cardRules[rule](card)
       if(!result['success']) {
-        new slackPublisher(result['msg'])
+        new slackPublisher({msg: result['msg']})
       }
     })
   }
