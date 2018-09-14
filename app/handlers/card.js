@@ -20,9 +20,9 @@ class Card {
     let rules = [
       'titleWordCount',
       'titleTitleize',
-      'dueDate',
-      'labels',
-      'members'
+      'dueDate'
+      // 'labels',
+      // 'members'
     ]
     this.executeRules(rules)
   }
