@@ -32,7 +32,7 @@ module.exports = {
 
   members: (card) => {
     if(card['idMembers'].length < 1)
-      return {success: false, msg: msgTemplate['rules']['card']['labels']}
+      return {success: false, msg: msgTemplate['rules']['card']['members']}
     return {success: true}
   }
 }
