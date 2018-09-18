@@ -59,7 +59,7 @@ class Card {
   }
 
   buildMessage(card, errorMessages) {
-    let msg = ':white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
+    let msg = '@' + this.action['memberCreator']['username'] + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
     errorMessages.forEach((error) => {
       msg += '- ' + error + '\n'
     })
