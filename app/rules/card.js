@@ -18,6 +18,12 @@ module.exports = {
     return {success: true}
   },
 
+  descriptionAvailabilty: (card) => {
+    if(!card['desc'])
+      return {success: false, msg: msgTemplate['rules']['card']['descriptionAvailabilty']}
+    return {success: true}
+  },
+
   dueDate: (card) => {
     if(!card['due'])
       return {success: false, msg: msgTemplate['rules']['card']['dueDate']}

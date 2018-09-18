@@ -24,6 +24,7 @@ class Card {
       'titleWordCount',
       'titleTitleize',
       'dueDate',
+      'descriptionAvailabilty',
       'labels',
       'members'
     ]
