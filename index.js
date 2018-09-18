@@ -21,7 +21,7 @@ app.post('/', function(req, res) {
   })
 })
 
-app.listen(8080, () => {
+app.listen(process.env.PORT, () => {
   logger.info('Listening on 3000')
 
   // Webhook request for trello. Use it for first time when you subscribing the webhook.
