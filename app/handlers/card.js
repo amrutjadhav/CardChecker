@@ -15,6 +15,9 @@ class Card {
     case 'createCard':
       this.handlerCreateCard()
       break
+    case 'updateCard':
+      this.handleUpdateCard()
+      break
     }
     return
   }
@@ -23,16 +26,44 @@ class Card {
     let rules = [
       'titleWordCount',
       'titleTitleize',
-      'dueDate',
       'descriptionAvailabilty',
-      'labels',
-      'members'
+      'labels'
     ]
     this.fetchCard().then((response) => {
       this.executeRules(response, rules)
     }).catch((error) => {
       logger.error(error)
     })
+  }
+
+  handleUpdateCard() {
+    let rules = []
+    switch(this.action['display']['translationKey']) {
+      case 'action_move_card_from_list_to_list':
+        rules = this.getListToListCardMoveRules()
+        break
+    }
+
+    // If rules are empty, return.
+    if(!rules)
+      return
+
+    this.fetchCard().then((response) => {
+      this.executeRules(response, rules)
+    }).catch((error) => {
+      logger.error(error)
+    })
+  }
+
+  getListToListCardMoveRules() {
+    let data = this.action['data'];
+    let listBefore = data['listBefore']['name'].toLowerCase()
+    let listAfter = data['listAfter']['name'].toLowerCase()
+
+    if(listBefore == 'tasks' && listAfter == 'in progress') {
+      return ['inProgressListMembersRequired', 'dueDate']
+    }
+    return []
   }
 
   executeRules(card, rules) {
