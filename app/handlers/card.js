@@ -1,7 +1,7 @@
 const cardRules = require('../rules/card')
 const slackPublisher = require('../publishers/slack')
-const Trello = require("trello");
-const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN);
+const Trello = require('trello')
+const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 const logger = require('../../config/logger')
 
 class Card {
@@ -39,9 +39,9 @@ class Card {
   handleUpdateCard() {
     let rules = []
     switch(this.action['display']['translationKey']) {
-      case 'action_move_card_from_list_to_list':
-        rules = this.getListToListCardMoveRules()
-        break
+    case 'action_move_card_from_list_to_list':
+      rules = this.getListToListCardMoveRules()
+      break
     }
 
     // If rules are empty, return.
@@ -56,7 +56,7 @@ class Card {
   }
 
   getListToListCardMoveRules() {
-    let data = this.action['data'];
+    let data = this.action['data']
     let listBefore = data['listBefore']['name'].toLowerCase()
     let listAfter = data['listAfter']['name'].toLowerCase()
 
