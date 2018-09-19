@@ -57,10 +57,10 @@ class Card {
 
   getListToListCardMoveRules() {
     let data = this.action['data']
-    let listBefore = data['listBefore']['name'].toLowerCase()
+    // let listBefore = data['listBefore']['name'].toLowerCase()
     let listAfter = data['listAfter']['name'].toLowerCase()
 
-    if(listBefore == 'tasks' && listAfter == 'in progress') {
+    if(listAfter == 'in progress') {
       return ['inProgressListMembersRequired', 'dueDate']
     }
     return []
