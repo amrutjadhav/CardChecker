@@ -40,5 +40,11 @@ module.exports = {
     if(card['idMembers'].length < 1)
       return {success: false, msg: msgTemplate['rules']['card']['members']}
     return {success: true}
+  },
+
+  inProgressListMembersRequired: (card) => {
+    if(card['idMembers'].length < 1)
+      return {success: false, msg: msgTemplate['rules']['card']['inProgressListMembersRequired']}
+    return {success: true}
   }
 }
