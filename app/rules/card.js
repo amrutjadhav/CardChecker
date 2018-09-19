@@ -1,7 +1,7 @@
 const msgTemplate = require('../message_template')
 
 module.exports = {
-  titleWordCount: (card) => {
+  titleWordCount: (card, options) => {
     let title = card['name']
     let wordsCount = title.split(' ').length
 
@@ -10,7 +10,7 @@ module.exports = {
     return {success: true}
   },
 
-  titleTitleize: (card) => {
+  titleTitleize: (card, options) => {
     let title = card['name']
 
     if(!title.match(/^[A-Z].*$/))
@@ -18,31 +18,38 @@ module.exports = {
     return {success: true}
   },
 
-  descriptionAvailabilty: (card) => {
+  descriptionAvailabilty: (card, options) => {
     if(!card['desc'])
       return {success: false, msg: msgTemplate['rules']['card']['descriptionAvailabilty']}
     return {success: true}
   },
 
-  dueDate: (card) => {
+  dueDate: (card, options) => {
     if(!card['due'])
       return {success: false, msg: msgTemplate['rules']['card']['dueDate']}
     return {success: true}
   },
 
-  labels: (card) => {
+  labels: (card, options) => {
     if(card['idLabels'].length < 2)
       return {success: false, msg: msgTemplate['rules']['card']['labels']}
     return {success: true}
   },
 
-  members: (card) => {
+  members: (card, options) => {
     if(card['idMembers'].length < 1)
       return {success: false, msg: msgTemplate['rules']['card']['members']}
     return {success: true}
   },
 
-  inProgressListMembersRequired: (card) => {
+  listOfNewCard: (card, options) => {
+    let listName = options['actionData']['list']['name'].toLowerCase()
+    if(listName != 'tasks')
+      return {success: false, msg: msgTemplate['rules']['card']['listOfNewCard']}
+    return {success: true}
+  },
+
+  inProgressListMembersRequired: (card, options) => {
     if(card['idMembers'].length < 1)
       return {success: false, msg: msgTemplate['rules']['card']['inProgressListMembersRequired']}
     return {success: true}
