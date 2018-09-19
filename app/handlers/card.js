@@ -27,7 +27,8 @@ class Card {
       'titleWordCount',
       'titleTitleize',
       'descriptionAvailabilty',
-      'labels'
+      'labels',
+      'listOfNewCard'
     ]
     this.fetchCard().then((response) => {
       this.executeRules(response, rules)
@@ -69,10 +70,11 @@ class Card {
   executeRules(card, rules) {
     let ticketValid = true
     let errorMessages = []
+    let actionData = this.action['data']
 
     rules.forEach(function(rule) {
       // @todo add method check here
-      let result = cardRules[rule](card)
+      let result = cardRules[rule](card, {actionData: actionData})
       if(!result['success']) {
         ticketValid = false
         errorMessages.push(result['msg'])

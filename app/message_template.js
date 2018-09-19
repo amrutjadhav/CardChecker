@@ -7,7 +7,8 @@ const template = {
       dueDate: 'Ticket don\'t have a due date. Take responsibility and ownership of your tasks.',
       labels: 'Ticket should have at least 2 labels. One for priority and other for classification.',
       members: 'Please assign the ticket to someone.',
-      inProgressListMembersRequired: 'Card should be assigned to someone if it card is pushed to \'In Progress\''
+      inProgressListMembersRequired: 'Card should be assigned to someone if it card is pushed to \'In Progress\'',
+      listOfNewCard: "Card should be created only in 'Task' list."
     }
   }
 }
