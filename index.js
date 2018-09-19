@@ -16,8 +16,8 @@ app.post('/', function(req, res) {
     body = JSON.parse(data.toString())
   })
   req.on('end', () => {
-    new eventHandler(body['action'])
     res.end('ok')
+    new eventHandler(body['action'])
   })
 })
 
