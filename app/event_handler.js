@@ -8,6 +8,7 @@ class EventHandler {
   eventDispatcher(action) {
     switch(action['type']) {
     case 'createCard':
+    case 'updateCard':
       new cardHandler(action)
       break
     default:
