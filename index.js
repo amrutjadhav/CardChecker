@@ -1,24 +1,20 @@
 require('dotenv').config()
+const bodyParser = require('body-parser')
 const express = require('express')
 const app = express()
 const eventHandler = require('./app/event_handler')
 const logger = require('./config/logger')
 // const request = require('request-promise-native')
 
+app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 // post trello webhook
 app.post('/', function(req, res) {
-  let body = ''
-  req.on('data', (data) => {
-    body = JSON.parse(data.toString())
-  })
-  req.on('end', () => {
-    res.end('ok')
-    new eventHandler(body['action'])
-  })
+  res.send('OK')
+  new eventHandler(req.body['action'])
 })
 
 app.listen(process.env.PORT, () => {

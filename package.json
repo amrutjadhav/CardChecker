@@ -23,6 +23,7 @@
   "homepage": "https://github.com/amrutjadhav/TicketChecker#readme",
   "dependencies": {
     "@slack/client": "^3.16.1-sec.2",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "log4js": "^3.0.5",
