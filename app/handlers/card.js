@@ -4,6 +4,7 @@ const Trello = require('trello')
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
+const cardUtilities = require('../utilities/card')
 
 class Card {
   constructor(action) {
@@ -31,7 +32,8 @@ class Card {
       'labels',
       'listOfNewCard'
     ]
-    this.fetchCard().then((response) => {
+    let cardId = this.action['data']['card']['id']
+    cardUtilities.fetchCard(cardId).then((response) => {
       this.executeRules(response, rules, 'createCard')
     }).catch((error) => {
       logger.error(error)
@@ -50,7 +52,8 @@ class Card {
     if(!rules)
       return
 
-    this.fetchCard().then((response) => {
+    let cardId = this.action['data']['card']['id']
+    cardUtilities.fetchCard(cardId).then((response) => {
       this.executeRules(response, rules, 'updateCard')
     }).catch((error) => {
       logger.error(error)
@@ -69,76 +72,51 @@ class Card {
   }
 
   executeRules(card, rules, eventType) {
-    let ticketValid = true
-    let errorMessages = []
-    let actionData = this.action['data']
+    let options = {actionData: this.action['data']}
 
-    rules.forEach(function(rule) {
-      // @todo add method check here
-      let result = cardRules[rule](card, {actionData: actionData})
-      if(!result['success']) {
-        ticketValid = false
-        errorMessages.push(result['msg'])
-      }
-    })
-    if(ticketValid) {
+    let result = cardUtilities.executeRules(card, rules, options)
+
+    if(result['ticketValid']) {
       // if ticket is valid, delete the entry from DB.
-      this.deleteCard()
+      cardUtilities.deleteCardDoc(cardId)
     } else {
-      this.handleInvalidCard(card, errorMessages, eventType)
+      this.handleInvalidCard(card, result['errorMessages'], eventType)
     }
-  }
-
-  deleteCard(card) {
-    cardModel.findOneAndDelete({card_id: card['id']}, (error, doc) => {
-      if(error) {
-        logger.error(error)
-      }
-    })
   }
 
   handleInvalidCard(card, errorMessages, eventType) {
     if(eventType == 'createCard') {
       // for new card, save card. no need to check
-      this.createCardDocument(card, errorMessages)
+      cardUtilities.createCardDoc(card).then(() => {
+        this.notifyErrors(card, errorMessages)
+      }, (error) => {
+        logger.error(error)
+      }).catch((error) => {
+        logger.error(error)
+      })
     } else if(eventType == 'updateCard') {
-      cardModel.findOne({card_id: card['id']}, function(error, doc){
+      cardModel.findOne({card_id: card['id']}, (error, doc) => {
         if(error){
           logger.error(error)
         } else if(!doc) {
-          this.createCardDocument()
+          cardUtilities.createCardDoc(card).then(() => {
+            this.notifyErrors(card, errorMessages)
+          }, (error) => {
+            logger.error(error)
+            new slackPublisher({msg: 'Your db is having problem'})
+          }).catch((error) => {
+            logger.error(error)
+          })
         }
       })
     }
   }
 
-  createCardDocument(card, errorMessages) {
-    let cardDocument = new cardModel({ card_id: card['id'] })
-    cardDocument.save(function(error, doc) {
-      if(error) {
-        logger.error(error)
-        new slackPublisher({msg: 'Your db is having problem'})
-      } else {
-        let msg = this.buildMessage(card, errorMessages)
-        new slackPublisher({msg: msg})
-      }
-    })
-  }
-
-  fetchCard() {
-    let cardId = this.action['data']['card']['id']
-    return trello.makeRequest('get', '/1/cards/' + cardId, {webhooks: true})
-  }
-
-  buildMessage(card, errorMessages) {
-    let msg = '@' + this.action['memberCreator']['username'] + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
-    errorMessages.forEach((error) => {
-      msg += '- ' + error + '\n'
-    })
-    msg +=  card['shortUrl']
-    return {
-      text: msg
-    }
+  notifyErrors(card, errorMessages) {
+    // notify on slack
+    let titleMsg = '@' + this.action['memberCreator']['username'] + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
+    let msg = cardUtilities.buildMessage(titleMsg, card, errorMessages)
+    new slackPublisher({msg: msg})
   }
 }
 
