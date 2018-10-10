@@ -5,6 +5,8 @@ const app = express()
 const eventHandler = require('./app/event_handler')
 const logger = require('./config/logger')
 const mongoose = require('mongoose')
+const cron = require('node-cron');
+const trelloCheckerJob = require('./app/jobs/trello_checker')
 // const request = require('request-promise-native')
 
 app.use(bodyParser.json());
@@ -20,6 +22,12 @@ app.post('/', function(req, res) {
 
 app.listen(process.env.PORT, () => {
   logger.info('Listening on 3000')
+
+
+  cron.schedule('* 25 * * *', () => {
+    new trelloCheckerJob()
+    console.log('running a task every 25 minutes');
+  });
 
   // connect mongodb instance
 
