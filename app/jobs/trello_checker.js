@@ -1,8 +1,14 @@
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
 const cardUtilities = require('../utilities/card')
+const slackPublisher = require('../publishers/slack')
 
 class TrelloChecker {
+
+  constructor() {
+    this.perform()
+  }
+
   perform() {
     // first get all invalid cards from db
     cardModel
@@ -18,8 +24,8 @@ class TrelloChecker {
   }
 
   handleInvalidCards(cardIds) {
-    cards.forEach(function(cardId) {
-      cardUtilities.fetchCard(cardId).then((card) => {
+    cardIds.forEach((doc) => {
+      cardUtilities.fetchCard(doc['card_id']).then((card) => {
         let rules = this.getRules(card)
         this.executeRules(card, rules)
       }).catch((error) => {
@@ -33,9 +39,9 @@ class TrelloChecker {
       'titleWordCount',
       'titleTitleize',
       'descriptionAvailabilty',
-      'labels',
-      'listOfNewCard'
+      'labels'
     ]
+    return rules
     // @todo add the rule of member checking.
   }
 
@@ -44,7 +50,7 @@ class TrelloChecker {
 
     if(result['ticketValid']) {
       // if ticket is valid, delete the entry from DB.
-      cardUtilities.deleteCardDoc(cardId)
+      cardUtilities.deleteCardDoc(card['id'])
     } else {
       this.handleInvalidCard(card, result['errorMessages'])
     }
@@ -52,7 +58,8 @@ class TrelloChecker {
 
   handleInvalidCard(card, errorMessages) {
     let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. Fix it or I will not tired of notifying you! \n '
-    let msg = cardUtilities.buildMessage(titleMsg, card, errorMessages)
+    let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
     new slackPublisher({msg: msg})
   }
 }
+module.exports = TrelloChecker

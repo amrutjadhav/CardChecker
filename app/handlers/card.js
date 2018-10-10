@@ -78,7 +78,7 @@ class Card {
 
     if(result['ticketValid']) {
       // if ticket is valid, delete the entry from DB.
-      cardUtilities.deleteCardDoc(cardId)
+      cardUtilities.deleteCardDoc(card['id'])
     } else {
       this.handleInvalidCard(card, result['errorMessages'], eventType)
     }
@@ -115,7 +115,7 @@ class Card {
   notifyErrors(card, errorMessages) {
     // notify on slack
     let titleMsg = '@' + this.action['memberCreator']['username'] + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
-    let msg = cardUtilities.buildMessage(titleMsg, card, errorMessages)
+    let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
     new slackPublisher({msg: msg})
   }
 }

@@ -25,6 +25,7 @@ const cardUtilities = {
         if(error) {
           reject(error)
         }
+        resolve()
       })
     })
   },
