@@ -32,7 +32,7 @@ class Card {
       'listOfNewCard'
     ]
     this.fetchCard().then((response) => {
-      this.executeRules(response, rules)
+      this.executeRules(response, rules, 'createCard')
     }).catch((error) => {
       logger.error(error)
     })
@@ -51,7 +51,7 @@ class Card {
       return
 
     this.fetchCard().then((response) => {
-      this.executeRules(response, rules)
+      this.executeRules(response, rules, 'updateCard')
     }).catch((error) => {
       logger.error(error)
     })
@@ -68,7 +68,7 @@ class Card {
     return []
   }
 
-  executeRules(card, rules) {
+  executeRules(card, rules, eventType) {
     let ticketValid = true
     let errorMessages = []
     let actionData = this.action['data']
@@ -81,14 +81,40 @@ class Card {
         errorMessages.push(result['msg'])
       }
     })
-    if(!ticketValid) {
-      this.handleInvalidCard(card, errorMessages)
+    if(ticketValid) {
+      // if ticket is valid, delete the entry from DB.
+      this.deleteCard()
+    } else {
+      this.handleInvalidCard(card, errorMessages, eventType)
     }
   }
 
-  handleInvalidCard(card, errorMessages) {
-    let cardDocument = new cardModel({ ticket_id: card['id'] })
-    cardDocument.save(function(error) {
+  deleteCard(card) {
+    cardModel.findOneAndDelete({card_id: card['id']}, (error, doc) => {
+      if(error) {
+        logger.error(error)
+      }
+    })
+  }
+
+  handleInvalidCard(card, errorMessages, eventType) {
+    if(eventType == 'createCard') {
+      // for new card, save card. no need to check
+      this.createCardDocument(card, errorMessages)
+    } else if(eventType == 'updateCard') {
+      cardModel.findOne({card_id: card['id']}, function(error, doc){
+        if(error){
+          logger.error(error)
+        } else if(!doc) {
+          this.createCardDocument()
+        }
+      })
+    }
+  }
+
+  createCardDocument(card, errorMessages) {
+    let cardDocument = new cardModel({ card_id: card['id'] })
+    cardDocument.save(function(error, doc) {
       if(error) {
         logger.error(error)
         new slackPublisher({msg: 'Your db is having problem'})
