@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const eventHandler = require('./app/event_handler')
 const logger = require('./config/logger')
+const mongoose = require('mongoose')
 // const request = require('request-promise-native')
 
 app.use(bodyParser.json());
@@ -19,6 +20,15 @@ app.post('/', function(req, res) {
 
 app.listen(process.env.PORT, () => {
   logger.info('Listening on 3000')
+
+  // connect mongodb instance
+
+  mongoose.connect('mongodb://' + process.env.DB_URI
+  ).then(() => {
+    logger.info('MONGODB CONNECTION SUCCESFULL');
+  }, (err) => {
+    logger.error('connection error:', err);
+  });
 
   // Webhook request for trello. Use it for first time when you subscribing the webhook.
   // request({
