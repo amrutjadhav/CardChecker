@@ -3,6 +3,7 @@ const slackPublisher = require('../publishers/slack')
 const Trello = require('trello')
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 const logger = require('../../config/logger')
+const cardModel = require('../models/card')
 
 class Card {
   constructor(action) {
@@ -81,13 +82,21 @@ class Card {
       }
     })
     if(!ticketValid) {
-      let msg = this.buildMessage(card, errorMessages)
-      new slackPublisher({msg: msg})
+      this.handleInvalidCard(card, errorMessages)
     }
   }
 
-  handleInvalidCard(card) {
-
+  handleInvalidCard(card, errorMessages) {
+    let cardDocument = new cardModel({ ticket_id: card['id'] })
+    cardDocument.save(function(error) {
+      if(error) {
+        logger.error(error)
+        new slackPublisher({msg: 'Your db is having problem'})
+      } else {
+        let msg = this.buildMessage(card, errorMessages)
+        new slackPublisher({msg: msg})
+      }
+    })
   }
 
   fetchCard() {
