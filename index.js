@@ -21,7 +21,7 @@ app.post('/', function(req, res) {
 })
 
 // schedule cron for ticket checker
-cron.schedule('* 25 * * *', () => {
+cron.schedule('* 25 * * * *', () => {
   new trelloCheckerJob()
   console.log('running a task every 25 minutes');
 });
