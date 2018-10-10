@@ -30,6 +30,12 @@ cron.schedule('* 25 * * *', () => {
 app.listen(process.env.PORT, () => {
   logger.info('Listening on 3000')
 
+
+  cron.schedule('* 25 * * *', () => {
+    new trelloCheckerJob()
+    console.log('running a task every 25 minutes');
+  });
+
   // connect mongodb instance
 
   mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true}
