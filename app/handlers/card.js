@@ -86,6 +86,10 @@ class Card {
     }
   }
 
+  handleInvalidCard(card) {
+
+  }
+
   fetchCard() {
     let cardId = this.action['data']['card']['id']
     return trello.makeRequest('get', '/1/cards/' + cardId, {webhooks: true})
