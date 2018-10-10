@@ -20,6 +20,9 @@ class Card {
     case 'updateCard':
       this.handleUpdateCard()
       break
+    case 'deleteCard':
+      this.handleArchivedCardAction()
+      break
     }
     return
   }
@@ -43,9 +46,12 @@ class Card {
   handleUpdateCard() {
     let rules = []
     switch(this.action['display']['translationKey']) {
-    case 'action_move_card_from_list_to_list':
-      rules = this.getListToListCardMoveRules()
-      break
+      case 'action_move_card_from_list_to_list':
+        rules = this.getListToListCardMoveRules()
+        break
+      case 'action_archived_card':
+        this.handleArchivedCardAction()
+        break
     }
 
     // If rules are empty, return.
@@ -55,6 +61,15 @@ class Card {
     let cardId = this.action['data']['card']['id']
     cardUtilities.fetchCard(cardId).then((response) => {
       this.executeRules(response, rules, 'updateCard')
+    }).catch((error) => {
+      logger.error(error)
+    })
+  }
+
+  handleArchivedCardAction() {
+    let cardId = this.action['data']['card']['id']
+    cardUtilities.fetchCard(cardId).then((card) => {
+      cardUtilities.deleteCardDoc(card['id'])
     }).catch((error) => {
       logger.error(error)
     })
