@@ -23,7 +23,7 @@ app.listen(process.env.PORT, () => {
 
   // connect mongodb instance
 
-  mongoose.connect('mongodb://' + process.env.DB_URI
+  mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true}
   ).then(() => {
     logger.info('MONGODB CONNECTION SUCCESFULL');
   }, (err) => {
