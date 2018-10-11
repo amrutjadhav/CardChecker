@@ -20,6 +20,11 @@ app.post('/', function(req, res) {
   new eventHandler(req.body['action'])
 })
 
+app.post('/cron', function(req, res) {
+  res.send('Cron started')
+  new trelloCheckerJob()
+})
+
 // schedule cron for ticket checker
 // cron.schedule('* 25 * * * *', () => {
 //   new trelloCheckerJob()
