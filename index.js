@@ -28,7 +28,12 @@ app.post('/', function(req, res) {
 
 // @todo this is patch for cron job scheduling. In future use, cron instead!
 setInterval(() => {
-  new trelloCheckerJob()
+  console.log('running checker job')
+  let date = new Date()
+  if(![0, 6].includes(date.getDay())) {
+    // don't run checker job on Sunday and Saturday.
+    new trelloCheckerJob()
+  }
 }, (25*60*1000))
 
 mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true})
