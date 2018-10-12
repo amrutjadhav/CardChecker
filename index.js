@@ -31,33 +31,31 @@ setInterval(() => {
   new trelloCheckerJob()
 }, (25*60*1000))
 
-app.listen(process.env.PORT, () => {
-  logger.info('Listening on 3000')
-
-  // connect mongodb instance
-
-  mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true}
-  ).then(() => {
-    logger.info('MONGODB CONNECTION SUCCESFULL');
-  }, (err) => {
+mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true})
+  .then(() => {
+      logger.info('MONGODB CONNECTION SUCCESFULL');
+      app.listen(process.env.PORT, () => {
+        logger.info('Listening on 3000')
+      })
+    }, (err) => {
     logger.error('connection error:', err);
   });
 
-  // Webhook request for trello. Use it for first time when you subscribing the webhook.
-  // request({
-  //   uri: 'https://api.trello.com/1/tokens/' + process.env.TRELLO_TOKEN + '/webhooks/?key=' + process.env.TRELLO_KEY,
-  //   method: 'POST',
-  //   body: {
-  //     description: 'TicketChecker webhook',
-  //     idModel: process.env.TRELLO_MODEL_ID,
-  //     callbackURL: process.env.TRELLO_CALLBACK_URL
-  //   },
-  //   json: true
-  // })
-  // .then((result) => {
-  //   logger.info('webhook subscribed')
-  // })
-  // .catch((error) => {
-  //   logger.error(error)
-  // })
-})
+
+// Webhook request for trello. Use it for first time when you subscribing the webhook.
+// request({
+//   uri: 'https://api.trello.com/1/tokens/' + process.env.TRELLO_TOKEN + '/webhooks/?key=' + process.env.TRELLO_KEY,
+//   method: 'POST',
+//   body: {
+//     description: 'TicketChecker webhook',
+//     idModel: process.env.TRELLO_MODEL_ID,
+//     callbackURL: process.env.TRELLO_CALLBACK_URL
+//   },
+//   json: true
+// })
+// .then((result) => {
+//   logger.info('webhook subscribed')
+// })
+// .catch((error) => {
+//   logger.error(error)
+// })

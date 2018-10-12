@@ -57,9 +57,25 @@ class TrelloChecker {
   }
 
   handleInvalidCard(card, errorMessages) {
-    let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. Fix it or I will not tired of notifying you! \n '
-    let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
-    new slackPublisher({msg: msg})
+    cardModel.findOne({card_id: card['id']}, (error, doc) => {
+      if(error) {
+        logger.info(error)
+      } else {
+        let warningCount = doc['warning_count']
+        warningCount = warningCount + 1
+        doc.save((error, doc) => {
+          if(error) {
+            logger.info(error)
+          } else {
+            let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. \
+                            Fix it or I will not tired of notifying you! \n \
+                            Warning number - ' + doc['warning_count'] + ' \n'
+            let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
+            new slackPublisher({msg: msg})
+          }
+        })
+      }
+    })
   }
 }
 module.exports = TrelloChecker
