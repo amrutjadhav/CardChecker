@@ -5,7 +5,7 @@ const app = express()
 const eventHandler = require('./app/event_handler')
 const logger = require('./config/logger')
 const mongoose = require('mongoose')
-const cron = require('node-cron');
+// const cron = require('node-cron');
 const trelloCheckerJob = require('./app/jobs/trello_checker')
 // const request = require('request-promise-native')
 
@@ -20,17 +20,16 @@ app.post('/', function(req, res) {
   new eventHandler(req.body['action'])
 })
 
-app.post('/cron', function(req, res) {
-  res.send('Cron started')
-  new trelloCheckerJob()
-})
-
 // schedule cron for ticket checker
 // cron.schedule('* 25 * * * *', () => {
 //   new trelloCheckerJob()
 //   console.log('running a task every 25 minutes');
 // });
 
+// @todo this is patch for cron job scheduling. In future use, cron instead!
+setInterval(() => {
+  new trelloCheckerJob()
+}, (25*60*1000))
 
 app.listen(process.env.PORT, () => {
   logger.info('Listening on 3000')
