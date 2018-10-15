@@ -7,6 +7,3 @@ How this works?
 3. CardChecker validates the card against the standard rules
 4. If card lack to fit in rules, it send notification on slack channel. Isn't that cool?😎
 
-Author:
-Amrut Jadhav
-amrutjadhav2294@gmail.com
