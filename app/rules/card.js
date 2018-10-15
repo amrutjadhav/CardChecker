@@ -56,13 +56,17 @@ module.exports = {
   },
 
   checkListItemStateCompletion: (card, options) => {
-    let states = card['checkItemStates']
+    let lists = card['checklists']
     let incompleteCount = 0
-    states.forEach((item) => {
-      if(item['state'] != 'complete') {
-        incompleteCount += 1
-      }
+    lists.forEach((list) => {
+      let items = list['checkItems']
+      items.forEach((item) => {
+        if(item['state'] != 'complete') {
+          incompleteCount += 1
+        }
+      })
     })
+
     if(incompleteCount > 0) {
       return {success: false, msg: msgTemplate['rules']['card']['checkListItemStateCompletion'](incompleteCount)}
     }
