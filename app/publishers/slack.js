@@ -10,14 +10,17 @@ class Slack {
 
   notify(options) {
     let msg = options['msg']
-
-    webhook.send(msg, function(err, res) {
-      if (err) {
-        logger.error('Error:', err)
-      } else {
-        logger.info('Message sent: ', res)
-      }
-    })
+    if(process.env.APP_ENV == 'production') {
+      webhook.send(msg, function(err, res) {
+        if (err) {
+          logger.error('Error:', err)
+        } else {
+          logger.info('Message sent: ', res)
+        }
+      })
+    } else {
+      logger.info(msg)
+    }
   }
 }
 
