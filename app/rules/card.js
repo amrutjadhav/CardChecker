@@ -66,6 +66,23 @@ module.exports = {
     if(incompleteCount > 0) {
       return {success: false, msg: msgTemplate['rules']['card']['checkListItemStateCompletion'](incompleteCount)}
     }
-    return {success: false}
+    return {success: true}
+  },
+
+  checkPullRequestAttachment: (card, options) => {
+    let attachments = card['attachments']
+
+    let isPRPresent = false
+    forEach(attachments, (attachment) => {
+      let url = attachment['url']
+      if(url.match(/https:\/\/bitbucket.org\//)) {
+        isPRPresent = true
+      }
+    })
+
+    if(!isPRPresent) {
+      return {success: false, msg: msgTemplate['rules']['card']['checkPullRequestAttachment']}
+    }
+    return {success: true}
   }
 }

@@ -75,6 +75,9 @@ class Card {
     if(listAfter == 'in review' && card['checklists'].length > 0) {
       rules.push('checkListItemStateCompletion')
     }
+    if(listAfter == 'in review') {
+      rules.push('checkPullRequestAttachment')
+    }
     return rules
   }
 
