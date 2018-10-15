@@ -25,7 +25,7 @@ class TrelloChecker {
 
   handleInvalidCards(cardIds) {
     cardIds.forEach((doc) => {
-      cardUtilities.fetchCard(doc['card_id']).then((card) => {
+      cardUtilities.fetchCard(doc['card_id'], ['attachments', 'list']).then((card) => {
         let rules = this.getRules(card)
         this.executeRules(card, rules)
       }).catch((error) => {
@@ -41,8 +41,18 @@ class TrelloChecker {
       'descriptionAvailabilty',
       'labels'
     ]
+    let cardList = card['list']['name'].toLowerCase()
+
+    if(cardList == 'in progress') {
+      rules.push('inProgressListMembersRequired', 'dueDate')
+    }
+    if(cardList == 'in review' && card['idChecklists'].length > 0) {
+      rules.push('checkListItemStateCompletion')
+    }
+    if(cardList == 'in review') {
+      rules.push('checkPullRequestAttachment')
+    }
     return rules
-    // @todo add the rule of member checking.
   }
 
   executeRules(card, rules) {
