@@ -58,9 +58,9 @@ module.exports = {
   checkListItemStateCompletion: (card, options) => {
     let states = card['checkItemStates']
     let incompleteCount = 0
-    forEach(states, (item) => {
+    states.forEach((item) => {
       if(item['state'] != 'complete') {
-        incompleteCount = incompleteCount + 1
+        incompleteCount += 1
       }
     })
     if(incompleteCount > 0) {
@@ -73,7 +73,7 @@ module.exports = {
     let attachments = card['attachments']
 
     let isPRPresent = false
-    forEach(attachments, (attachment) => {
+    attachments.forEach((attachment) => {
       let url = attachment['url']
       // @todo git platform is hard coded right now! There are lots of things hard coded. In future, these can be customizable so that
       // every organization can fit this app in their workflow.

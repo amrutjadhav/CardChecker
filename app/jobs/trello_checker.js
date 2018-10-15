@@ -15,12 +15,12 @@ class TrelloChecker {
       .find({is_valid: false})
       .select('card_id')
       .exec((error, cardIds) => {
-      if(error) {
-        logger.error(error)
-      } else {
-        this.handleInvalidCards(cardIds)
-      }
-    })
+        if(error) {
+          logger.error(error)
+        } else {
+          this.handleInvalidCards(cardIds)
+        }
+      })
   }
 
   handleInvalidCards(cardIds) {
@@ -61,8 +61,7 @@ class TrelloChecker {
       if(error) {
         logger.info(error)
       } else {
-        let warningCount = doc['warning_count']
-        warningCount = warningCount + 1
+        doc['warning_count'] += 1
         doc.save((error, doc) => {
           if(error) {
             logger.info(error)
