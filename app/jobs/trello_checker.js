@@ -24,8 +24,12 @@ class TrelloChecker {
   }
 
   handleInvalidCards(cardIds) {
+    let cardApiOptions = {
+      attachments: true,
+      list: true
+    }
     cardIds.forEach((doc) => {
-      cardUtilities.fetchCard(doc['card_id'], ['attachments', 'list']).then((card) => {
+      cardUtilities.fetchCard(doc['card_id'], cardApiOptions).then((card) => {
         let rules = this.getRules(card)
         this.executeRules(card, rules)
       }).catch((error) => {

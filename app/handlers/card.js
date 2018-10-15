@@ -11,7 +11,7 @@ class Card {
 
   handlerDispatcher() {
     let cardId = this.action['data']['card']['id']
-    cardUtilities.fetchCard(cardId, ['attachments']).then((card) => {
+    cardUtilities.fetchCard(cardId, {attachments: true}).then((card) => {
       switch(this.action['type']) {
       case 'createCard':
         this.handlerCreateCard(card)
