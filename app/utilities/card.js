@@ -7,7 +7,7 @@ const cardModel = require('../models/card')
 const cardUtilities = {
 
   fetchCard: (cardId) => {
-    return trello.makeRequest('get', '/1/cards/' + cardId, {webhooks: true})
+    return trello.makeRequest('get', '/1/cards/' + cardId + '?attachments=true', {webhooks: true})
   },
 
   deleteCardDoc: (cardId) => {
