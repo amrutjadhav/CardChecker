@@ -75,6 +75,8 @@ module.exports = {
     let isPRPresent = false
     forEach(attachments, (attachment) => {
       let url = attachment['url']
+      // @todo git platform is hard coded right now! There are lots of things hard coded. In future, these can be customizable so that
+      // every organization can fit this app in their workflow.
       if(url.match(/https:\/\/bitbucket.org\//)) {
         isPRPresent = true
       }
