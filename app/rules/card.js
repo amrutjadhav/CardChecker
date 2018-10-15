@@ -53,5 +53,19 @@ module.exports = {
     if(card['idMembers'].length < 1)
       return {success: false, msg: msgTemplate['rules']['card']['inProgressListMembersRequired']}
     return {success: true}
+  },
+
+  checkListItemStateCompletion: (card, options) => {
+    let states = card['checkItemStates']
+    let incompleteCount = 0
+    forEach(states, (item) => {
+      if(item['state'] != 'complete') {
+        incompleteCount = incompleteCount + 1
+      }
+    })
+    if(incompleteCount > 0) {
+      return {success: false, msg: msgTemplate['rules']['card']['checkListItemStateCompletion'](incompleteCount)}
+    }
+    return {success: false}
   }
 }
