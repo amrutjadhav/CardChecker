@@ -13,21 +13,26 @@ class Card {
   }
 
   handlerDispatcher() {
-    switch(this.action['type']) {
-    case 'createCard':
-      this.handlerCreateCard()
-      break
-    case 'updateCard':
-      this.handleUpdateCard()
-      break
-    case 'deleteCard':
-      this.handleArchivedCardAction()
-      break
-    }
+    let cardId = this.action['data']['card']['id']
+    cardUtilities.fetchCard(cardId).then((response) => {
+      switch(this.action['type']) {
+      case 'createCard':
+        this.handlerCreateCard(card)
+        break
+      case 'updateCard':
+        this.handleUpdateCard(card)
+        break
+      case 'deleteCard':
+        this.handleArchivedCardAction(card)
+        break
+      }
+    }).catch((error) => {
+      logger.error(error)
+    })
     return
   }
 
-  handlerCreateCard() {
+  handlerCreateCard(card) {
     let rules = [
       'titleWordCount',
       'titleTitleize',
@@ -35,55 +40,42 @@ class Card {
       'labels',
       'listOfNewCard'
     ]
-    let cardId = this.action['data']['card']['id']
-    cardUtilities.fetchCard(cardId).then((response) => {
-      this.executeRules(response, rules, 'createCard')
-    }).catch((error) => {
-      logger.error(error)
-    })
+    this.executeRules(card, rules, 'createCard')
   }
 
-  handleUpdateCard() {
+  handleUpdateCard(card) {
     let rules = []
     switch(this.action['display']['translationKey']) {
       case 'action_move_card_from_list_to_list':
-        rules = this.getListToListCardMoveRules()
+        rules = this.getListToListCardMoveRules(card)
         break
       case 'action_archived_card':
-        this.handleArchivedCardAction()
+        this.handleArchivedCardAction(card)
         break
     }
 
     // If rules are empty, return.
     if(!rules)
       return
-
-    let cardId = this.action['data']['card']['id']
-    cardUtilities.fetchCard(cardId).then((response) => {
-      this.executeRules(response, rules, 'updateCard')
-    }).catch((error) => {
-      logger.error(error)
-    })
+    this.executeRules(card, rules, 'updateCard')
   }
 
-  handleArchivedCardAction() {
-    let cardId = this.action['data']['card']['id']
-    cardUtilities.fetchCard(cardId).then((card) => {
-      cardUtilities.deleteCardDoc(card['id'])
-    }).catch((error) => {
-      logger.error(error)
-    })
+  handleArchivedCardAction(card) {
+    cardUtilities.deleteCardDoc(card['id'])
   }
 
-  getListToListCardMoveRules() {
+  getListToListCardMoveRules(card) {
     let data = this.action['data']
+    let rules = []
     // let listBefore = data['listBefore']['name'].toLowerCase()
     let listAfter = data['listAfter']['name'].toLowerCase()
-
     if(listAfter == 'in progress') {
-      return ['inProgressListMembersRequired', 'dueDate']
+      rules.push('inProgressListMembersRequired', 'dueDate')
     }
-    return []
+    if(listAfter == 'in review' && card['checklists'].length > 0) {
+      rules.push('checkListItemStateCompletion')
+    }
+    return rules
   }
 
   executeRules(card, rules, eventType) {
