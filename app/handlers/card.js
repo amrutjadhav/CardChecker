@@ -11,7 +11,7 @@ class Card {
 
   handlerDispatcher() {
     let cardId = this.action['data']['card']['id']
-    cardUtilities.fetchCard(cardId).then((card) => {
+    cardUtilities.fetchCard(cardId, ['attachments']).then((card) => {
       switch(this.action['type']) {
       case 'createCard':
         this.handlerCreateCard(card)
@@ -69,7 +69,7 @@ class Card {
     if(listAfter == 'in progress') {
       rules.push('inProgressListMembersRequired', 'dueDate')
     }
-    if(listAfter == 'in review' && card['checklists'].length > 0) {
+    if(listAfter == 'in review' && card['idChecklists'].length > 0) {
       rules.push('checkListItemStateCompletion')
     }
     if(listAfter == 'in review') {
