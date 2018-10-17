@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amrutjadhav/TicketChecker.git"
+    "url": "git+https://github.com/amrutjadhav/CardChecker.git"
   },
   "keywords": [
     "trello",
@@ -18,9 +18,9 @@
   "author": "Amrut Jadhav",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/amrutjadhav/TicketChecker/issues"
+    "url": "https://github.com/amrutjadhav/CardChecker/issues"
   },
-  "homepage": "https://github.com/amrutjadhav/TicketChecker#readme",
+  "homepage": "https://github.com/amrutjadhav/CardChecker#readme",
   "dependencies": {
     "@slack/client": "^3.16.1-sec.2",
     "body-parser": "^1.18.3",
