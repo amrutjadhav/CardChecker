@@ -75,14 +75,13 @@ class TrelloChecker {
       if(error) {
         logger.info(error)
       } else {
-        doc['warning_count'] += 1
-        doc.save((error, doc) => {
+        doc.update({$inc: {warning_count: 1}}, (error, doc) => {
           if(error) {
             logger.info(error)
           } else {
             let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. \
                             Fix it or I will not tired of notifying you! \n \
-                            Warning number - ' + doc['warning_count'] + ' \n'
+                            Warning number - ' + doc['warning_count'] + 1 + ' \n'
             let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
             new slackPublisher({msg: msg})
           }
