@@ -30,8 +30,9 @@ app.post('/', function(req, res) {
 setInterval(() => {
   console.log('running checker job')
   let date = new Date()
-  if(![0, 6].includes(date.getDay())) {
+  if(![0, 6].includes(date.getDay()) && date.getHours() >= 9 && date.getHours() <= 20) {
     // don't run checker job on Sunday and Saturday.
+    // Also don't run job before 9:00 and after 20:59.
     new trelloCheckerJob()
   }
 }, (25*60*1000))
