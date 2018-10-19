@@ -81,7 +81,7 @@ class TrelloChecker {
           if(error) {
             logger.info(error)
           } else {
-            let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. \
+            let titleMsg = '😓 Again!!!!! \n *' + card['name'] + '* \n This card still has some unresolved standard issues. \
                             Fix it or I will not tired of notifying you! \n \
                             Warning number - ' + doc.warning_count + ' \n'
             let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
