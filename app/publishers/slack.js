@@ -15,10 +15,11 @@ class Slack {
         if (err) {
           logger.error('Error:', err)
         } else {
-          logger.info('Message sent: ', res)
+          logger.info('Message sent on slack channel')
         }
       })
     } else {
+      // if environment is other than production, just log the messages.
       logger.info(msg)
     }
   }

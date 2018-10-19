@@ -74,19 +74,22 @@ class TrelloChecker {
     cardModel.findOne({card_id: card['id']}, (error, doc) => {
       if(error) {
         logger.info(error)
-      } else {
-        let warningCount = doc['warning_count'] + 1
-        doc.update({$inc: {warning_count: 1}}, (error) => {
+      } else if(doc) {
+        doc.warning_count += 1
+        doc.save((error, doc) => {
           if(error) {
             logger.info(error)
           } else {
             let titleMsg = '😓 Again!!!!! \n' + card['name'] + ' \n This card still has some unresolved standard issues. \
                             Fix it or I will not tired of notifying you! \n \
-                            Warning number - ' + warningCount + ' \n'
+                            Warning number - ' + doc.warning_count + ' \n'
             let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
             new slackPublisher({msg: msg})
           }
         })
+      } else {
+        // If doc don't found just log this info
+        logger.error("card document doesn't found in DB. card-id" + card['id'])
       }
     })
   }
