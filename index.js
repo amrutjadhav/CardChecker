@@ -23,8 +23,11 @@ app.post('/', function(req, res) {
 // subscribe app as trello webhook
 app.post('/configure/subscribe/trello/webhook', (req, res) => {
   let controller = new configurationController()
-  let result = controller.subscribeTrelloWebhook(req.params)
-  res.send(result)
+  controller.subscribeTrelloWebhook(req.body).then((result) => {
+    res.send(result)
+  }, (error) => {
+    res.send(error)
+  })
 })
 
 // @todo this is patch for cron job scheduling. In future use, cron instead!
