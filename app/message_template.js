@@ -14,6 +14,16 @@ const template = {
       },
       checkPullRequestAttachment: 'When card moves to *In Review* list, it should have pull request attached to it.'
     }
+  },
+  controllers: {
+    configuration: {
+      validation: {
+        subscribeTrelloWebhook: {
+          descriptionRequired: 'Webhook description is required.',
+          idModelRequired: 'Trello model id is required.'
+        }
+      }
+    }
   }
 }
 

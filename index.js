@@ -2,21 +2,32 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const express = require('express')
 const app = express()
-const eventHandler = require('./app/event_handler')
+const eventController = require('./app/controllers/event_controller')
+const configurationController = require('./app/controllers/configuration_controller')
 const logger = require('./config/logger')
 const mongoose = require('mongoose')
 const trelloCheckerJob = require('./app/jobs/trello_checker')
-// const request = require('request-promise-native')
 
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-// post trello webhook
+// trello webhook event
 app.post('/', function(req, res) {
   res.send('OK')
-  new eventHandler(req.body['action'])
+  let controller = new eventController()
+  controller.trelloEvents(req.body['action'])
+})
+
+// subscribe app as trello webhook
+app.post('/configure/subscribe/trello/webhook', (req, res) => {
+  let controller = new configurationController()
+  controller.subscribeTrelloWebhook(req.body).then((result) => {
+    res.send(result)
+  }, (error) => {
+    res.send(error)
+  })
 })
 
 // @todo this is patch for cron job scheduling. In future use, cron instead!
@@ -34,27 +45,8 @@ mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useC
   .then(() => {
       logger.info('MONGODB CONNECTION SUCCESFULL');
       app.listen(process.env.PORT, () => {
-        logger.info('Listening on 3000')
+        logger.info('Listening on ' + process.env.PORT)
       })
     }, (err) => {
     logger.error('connection error:', err);
   });
-
-
-// Webhook request for trello. Use it for first time when you subscribing the webhook.
-// request({
-//   uri: 'https://api.trello.com/1/tokens/' + process.env.TRELLO_TOKEN + '/webhooks/?key=' + process.env.TRELLO_KEY,
-//   method: 'POST',
-//   body: {
-//     description: 'TicketChecker webhook',
-//     idModel: process.env.TRELLO_MODEL_ID,
-//     callbackURL: process.env.TRELLO_CALLBACK_URL
-//   },
-//   json: true
-// })
-// .then((result) => {
-//   logger.info('webhook subscribed')
-// })
-// .catch((error) => {
-//   logger.error(error)
-// })
