@@ -7,6 +7,7 @@ const configurationController = require('./app/controllers/configuration_control
 const logger = require('./config/logger')
 const mongoose = require('mongoose')
 const trelloCheckerJob = require('./app/jobs/trello_checker')
+const moment = require('moment-timezone')
 
 app.use(bodyParser.json());
 app.get('/', (req, res) => {
@@ -32,11 +33,11 @@ app.post('/configure/subscribe/trello/webhook', (req, res) => {
 
 // @todo this is patch for cron job scheduling. In future use, cron instead!
 setInterval(() => {
-  console.log('running checker job')
-  let date = new Date()
-  if(![0, 6].includes(date.getDay()) && date.getHours() >= 9 && date.getHours() <= 20) {
+  let date = moment().tz('Asia/Kolkata')
+  if(![0, 6].includes(date.format('e')) && date.format('H') >= 9 && date.format('H') <= 20) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.
+    console.log('running checker job')
     new trelloCheckerJob()
   }
 }, (25*60*1000))
