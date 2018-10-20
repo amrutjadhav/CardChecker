@@ -34,7 +34,7 @@ app.post('/configure/subscribe/trello/webhook', (req, res) => {
 // @todo this is patch for cron job scheduling. In future use, cron instead!
 setInterval(() => {
   let date = moment().tz('Asia/Kolkata')
-  if(![0, 6].includes(date.format('e')) && date.format('H') >= 9 && date.format('H') <= 20) {
+  if(!['0', '6'].includes(date.format('e')) && date.format('H') >= 9 && date.format('H') <= 20) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.
     console.log('running checker job')
