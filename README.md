@@ -14,9 +14,10 @@ Trello card checker which checks whether your employees are following the card s
     - Trello app key reference = https://trello.com/app-key
     - You can get Trello token for your personal account here = https://trello.com/app-key
 3. Set the URL of app to *TRELLO_CALLBACK_URL* environment variable.
-4. Get the id of your Trello boards using following endpoint
+4. Set the MongoDB URL to *DB_URI* environment variable.
+5. Get the id of your Trello boards using following endpoint
     - `curl 'https://api.trello.com/1/members/me/boards?key={yourKey}&token={yourToken}'`
-5. Subscribe the webhook to trello board using our configuration API described below
+6. Subscribe the webhook to trello board using our configuration API described below
 
 ###### Configuration API
 To configure this app to your development ecosystem, it provides multiple API
