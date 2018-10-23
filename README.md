@@ -25,8 +25,8 @@ To configure this app to your development ecosystem, it provides multiple API
 1. **POST /configure/subscribe/trello/webhook**
     - To subscribe app URL as webhook for trello. Trello sends events for every operation on their platform, to this webhook.
       - Params
-        - **description** - To identify the trello webhook
-        - **idModel** - Id of trello board.
+        1. **description** - To identify the trello webhook
+        2. **idModel** - Id of trello board.
 
 ##### Defaults
 - Currently, **CardChecker** only checks PR from *BitBucket*.
