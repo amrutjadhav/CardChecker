@@ -12,12 +12,13 @@ class Card {
   handlerDispatcher() {
     let cardId = this.action['data']['card']['id']
     cardUtilities.fetchCard(cardId, {attachments: true, checklists: 'all'}).then((card) => {
+      let cardCategory = this.getCardCategory(card)
       switch(this.action['type']) {
       case 'createCard':
-        this.handlerCreateCard(card)
+        this.handlerCreateCard(card, {cardCategory: cardCategory})
         break
       case 'updateCard':
-        this.handleUpdateCard(card)
+        this.handleUpdateCard(card, {cardCategory: cardCategory})
         break
       case 'deleteCard':
         this.handleArchivedCardAction(card)
@@ -29,7 +30,31 @@ class Card {
     return
   }
 
-  handlerCreateCard(card) {
+
+  /**
+   * Get the card category eg. development, other
+   * Category helps to decide which rule should be applied to card.
+   * Support categories - development, other
+   * Default category is set to `development`.
+   * @param  {Object}  card Trello card Object.
+   * @return {String} Category of card
+   */
+  getCardCategory(card) {
+    // Currently to check whether card is dev or not, it only check the label naming 'development'.
+    // @todo make this configurable.
+    let labels = card.labels
+    let category = 'development'
+
+    labels.forEach((labelObject) => {
+      let name = labelObject.name.toLowerCase();
+      if(name.match(/^.*non-dev.*$/)) {
+        category = 'other'
+      }
+    })
+    return category
+  }
+
+  handlerCreateCard(card, options) {
     let rules = [
       'titleWordCount',
       'titleTitleize',
@@ -40,11 +65,11 @@ class Card {
     this.executeRules(card, rules, 'createCard')
   }
 
-  handleUpdateCard(card) {
+  handleUpdateCard(card, options) {
     let rules = []
     switch(this.action['display']['translationKey']) {
     case 'action_move_card_from_list_to_list':
-      rules = this.getListToListCardMoveRules(card)
+      rules = this.getListToListCardMoveRules(card, options)
       break
     case 'action_archived_card':
       this.handleArchivedCardAction(card)
@@ -61,7 +86,7 @@ class Card {
     cardUtilities.deleteCardDoc(card['id'])
   }
 
-  getListToListCardMoveRules(card) {
+  getListToListCardMoveRules(card, options) {
     let data = this.action['data']
     let rules = []
     // let listBefore = data['listBefore']['name'].toLowerCase()
@@ -72,7 +97,8 @@ class Card {
     if(listAfter == 'in review' && card['checklists'].length > 0) {
       rules.push('checkListItemStateCompletion')
     }
-    if(listAfter == 'in review') {
+    // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
+    if(listAfter == 'in review' && options.cardCategory == 'development') {
       rules.push('checkPullRequestAttachment')
     }
     return rules
