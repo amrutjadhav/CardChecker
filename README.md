@@ -7,7 +7,12 @@ Trello card checker which checks whether your employees are following the card s
 3. CardChecker validates the card against the standard rules
 4. If card lack to fit in rules, it send notification on slack channel. Isn't that cool?😎
 
-###### API
+##### Defaults
+- Currently, **CardChecker** only checks PR from *BitBucket*.
+
+*Most of the default described above will be configurable through the confguration API.*
+
+###### Configuration API
 To configure this app to your development ecosystem, it provides multiple API
 
 1. **POST /configure/subscribe/trello/webhook**
