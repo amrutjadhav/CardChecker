@@ -20,13 +20,13 @@ class ConfigurationController {
         },
         json: true
       })
-      .then((result) => {
-        resolve({result: 'webhook subscribed'})
-      })
-      .catch((error) => {
-        logger.error(error)
-        reject({result: 'error while subscribing webhook on trello.'})
-      })
+        .then((result) => {
+          resolve({result: 'webhook subscribed'})
+        })
+        .catch((error) => {
+          logger.error(error)
+          reject({result: 'error while subscribing webhook on trello.'})
+        })
     })
   }
 

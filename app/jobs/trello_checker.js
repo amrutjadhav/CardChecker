@@ -90,7 +90,7 @@ class TrelloChecker {
         })
       } else {
         // If doc don't found just log this info
-        logger.error("card document doesn't found in DB. card-id" + card['id'])
+        logger.error('card document doesn\'t found in DB. card-id' + card['id'])
       }
     })
   }
