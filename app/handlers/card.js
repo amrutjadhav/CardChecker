@@ -47,7 +47,7 @@ class Card {
 
     labels.forEach((labelObject) => {
       let name = labelObject.name.toLowerCase()
-      if(name.match(/^.*non-dev.*$/)) {
+      if(name.match(/^.*non\sdev.*$/)) {
         category = 'other'
       }
     })
