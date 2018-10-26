@@ -40,6 +40,7 @@ class TrelloChecker {
   }
 
   getRules(card) {
+    let cardCategory = cardUtilities.getCardCategory(card)
     let rules = [
       'titleWordCount',
       'titleTitleize',
@@ -54,7 +55,7 @@ class TrelloChecker {
     if(cardList == 'in review' && card['idChecklists'].length > 0) {
       rules.push('checkListItemStateCompletion')
     }
-    if(cardList == 'in review') {
+    if(listAfter == 'in review' && cardCategory == 'development') {
       rules.push('checkPullRequestAttachment')
     }
     return rules

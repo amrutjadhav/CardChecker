@@ -31,6 +31,29 @@ const cardUtilities = {
     })
   },
 
+  /**
+   * Get the card category eg. development, other
+   * Category helps to decide which rule should be applied to card.
+   * Support categories - development, other
+   * Default category is set to `development`.
+   * @param  {Object}  card Trello card Object.
+   * @return {String} Category of card
+   */
+  getCardCategory: (card) => {
+    // Currently to check whether card is dev or not, it only check the label naming 'development'.
+    // @todo make this configurable.
+    let labels = card.labels
+    let category = 'development'
+
+    labels.forEach((labelObject) => {
+      let name = labelObject.name.toLowerCase()
+      if(name.match(/^.*non\sdev.*$/)) {
+        category = 'other'
+      }
+    })
+    return category
+  },
+
   executeRules: (card, rules, options) => {
     let ticketValid = true
     let errorMessages = []
