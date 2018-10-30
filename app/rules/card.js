@@ -49,7 +49,7 @@ module.exports = {
   },
 
   listOfNewCard: (card, options) => {
-    let listName = options['actionData']['list']['name'].toLowerCase()
+    let listName = options.actionData.list.name.toLowerCase()
     if(listName != 'tasks')
       return {success: false, msg: msgTemplate.rules.card.listOfNewCard}
     return {success: true}
@@ -79,7 +79,7 @@ module.exports = {
     return {success: true}
   },
 
-  checkPullRequestAttachment: (card, options) => {
+  pullRequestAttachment: (card, options) => {
     let attachments = card.attachments
 
     let isPRPresent = false
@@ -93,7 +93,7 @@ module.exports = {
     })
 
     if(!isPRPresent) {
-      return {success: false, msg: msgTemplate.rules.card.checkPullRequestAttachment}
+      return {success: false, msg: msgTemplate.rules.card.pullRequestAttachment}
     }
     return {success: true}
   }

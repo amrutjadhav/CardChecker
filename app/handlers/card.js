@@ -75,7 +75,7 @@ class Card {
     }
     // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
     if(listAfter == 'in review' && options.cardCategory == 'development') {
-      rules.push('checkPullRequestAttachment')
+      rules.push('pullRequestAttachment')
     }
     // rule to check if due date is marked as complete or not.
     if(listAfter == 'merged' || listAfter == 'done') {
