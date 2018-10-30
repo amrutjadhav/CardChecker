@@ -9,7 +9,11 @@ class Slack {
   }
 
   notify(options) {
-    let msg = options['msg']
+    let msg = options.msg
+    if(!msg) {
+      logger.error('There is no message to publish to slack.')
+      return
+    }
     if(process.env.APP_ENV == 'production') {
       webhook.send(msg, function(err, res) {
         if (err) {

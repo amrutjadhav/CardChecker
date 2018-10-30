@@ -2,7 +2,7 @@ const msgTemplate = require('../message_template')
 
 module.exports = {
   titleWordCount: (card, options) => {
-    let title = card['name']
+    let title = card.name
     let wordsCount = title.split(' ').length
 
     if(wordsCount < 2)
@@ -11,7 +11,7 @@ module.exports = {
   },
 
   titleTitleize: (card, options) => {
-    let title = card['name']
+    let title = card.name
 
     if(!title.match(/^[A-Z].*$/))
       return {success: false, msg: msgTemplate.rules.card.titleTitleize}
@@ -19,13 +19,13 @@ module.exports = {
   },
 
   descriptionAvailabilty: (card, options) => {
-    if(!card['desc'])
+    if(!card.desc)
       return {success: false, msg: msgTemplate.rules.card.descriptionAvailabilty}
     return {success: true}
   },
 
   dueDate: (card, options) => {
-    if(!card['due'])
+    if(!card.due)
       return {success: false, msg: msgTemplate.rules.card.dueDate}
     return {success: true}
   },
@@ -37,13 +37,13 @@ module.exports = {
   },
 
   labels: (card, options) => {
-    if(card['idLabels'].length < 2)
+    if(card.idLabels.length < 2)
       return {success: false, msg: msgTemplate.rules.card.labels}
     return {success: true}
   },
 
   members: (card, options) => {
-    if(card['idMembers'].length < 1)
+    if(card.idMembers.length < 1)
       return {success: false, msg: msgTemplate.rules.card.members}
     return {success: true}
   },
@@ -56,13 +56,13 @@ module.exports = {
   },
 
   inProgressListMembersRequired: (card, options) => {
-    if(card['idMembers'].length < 1)
+    if(card.idMembers.length < 1)
       return {success: false, msg: msgTemplate.rules.card.inProgressListMembersRequired}
     return {success: true}
   },
 
   checkListItemStateCompletion: (card, options) => {
-    let lists = card['checklists']
+    let lists = card.checklists
     let incompleteCount = 0
     lists.forEach((list) => {
       let items = list['checkItems']
@@ -80,7 +80,7 @@ module.exports = {
   },
 
   checkPullRequestAttachment: (card, options) => {
-    let attachments = card['attachments']
+    let attachments = card.attachments
 
     let isPRPresent = false
     attachments.forEach((attachment) => {

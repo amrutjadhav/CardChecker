@@ -10,10 +10,10 @@ class Card {
   }
 
   handlerDispatcher() {
-    let cardId = this.action['data']['card']['id']
+    let cardId = this.action.data.card.id
     cardUtilities.fetchCard(cardId, {attachments: true, checklists: 'all'}).then((card) => {
       let cardCategory = cardUtilities.getCardCategory(card)
-      switch(this.action['type']) {
+      switch(this.action.type) {
       case 'createCard':
         this.handlerCreateCard(card, {cardCategory: cardCategory})
         break
@@ -43,7 +43,7 @@ class Card {
 
   handleUpdateCard(card, options) {
     let rules = []
-    switch(this.action['display']['translationKey']) {
+    switch(this.action.display.translationKey) {
     case 'action_move_card_from_list_to_list':
       rules = this.getListToListCardMoveRules(card, options)
       break
@@ -59,18 +59,18 @@ class Card {
   }
 
   handleArchivedCardAction(card) {
-    cardUtilities.deleteCardDoc(card['id'])
+    cardUtilities.deleteCardDoc(card.id)
   }
 
   getListToListCardMoveRules(card, options) {
-    let data = this.action['data']
+    let data = this.action.data
     let rules = []
     // let listBefore = data['listBefore']['name'].toLowerCase()
-    let listAfter = data['listAfter']['name'].toLowerCase()
+    let listAfter = data.listAfter.name.toLowerCase()
     if(listAfter == 'in progress') {
       rules.push('inProgressListMembersRequired', 'dueDate')
     }
-    if(listAfter == 'in review' && card['checklists'].length > 0) {
+    if(listAfter == 'in review' && card.checklists.length > 0) {
       rules.push('checkListItemStateCompletion')
     }
     // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
@@ -85,15 +85,15 @@ class Card {
   }
 
   executeRules(card, rules, eventType) {
-    let options = {actionData: this.action['data']}
+    let options = {actionData: this.action.data}
 
     let result = cardUtilities.executeRules(card, rules, options)
 
-    if(result['ticketValid']) {
+    if(result.ticketValid) {
       // if ticket is valid, delete the entry from DB.
-      cardUtilities.deleteCardDoc(card['id'])
+      cardUtilities.deleteCardDoc(card.id)
     } else {
-      this.handleInvalidCard(card, result['errorMessages'], eventType)
+      this.handleInvalidCard(card, result.errorMessages, eventType)
     }
   }
 
@@ -108,7 +108,7 @@ class Card {
         logger.error(error)
       })
     } else if(eventType == 'updateCard') {
-      cardModel.findOne({card_id: card['id']}, (error, doc) => {
+      cardModel.findOne({card_id: card.id}, (error, doc) => {
         if(error){
           logger.error(error)
         } else if(!doc) {
@@ -129,7 +129,7 @@ class Card {
 
   notifyErrors(card, errorMessages) {
     // notify on slack
-    let titleMsg = '@' + this.action['memberCreator']['username'] + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
+    let titleMsg = '@' + this.action.memberCreator.username + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
     let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
     new slackPublisher({msg: msg})
   }
