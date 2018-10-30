@@ -1,6 +1,5 @@
 const Trello = require('trello')
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
-const cardRules = require('../rules/card')
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
 
@@ -57,6 +56,7 @@ const cardUtilities = {
   executeRules: (card, rules, options) => {
     let ticketValid = true
     let errorMessages = []
+    const cardRules = require('../rules/card')
     rules.forEach(function(rule) {
       // @todo add method check here
       let result = cardRules[rule](card, options)
