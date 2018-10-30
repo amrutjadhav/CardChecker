@@ -1,4 +1,5 @@
 const msgTemplate = require('../message_template')
+const cardUtilities = require('../utilities/card')
 
 module.exports = {
   titleWordCount: (card, options) => {
@@ -63,6 +64,10 @@ module.exports = {
 
   checkListItemStateCompletion: (card, options) => {
     let lists = card.checklists
+    // if card don't have checklist items, return success.
+    if(!lists.length) {
+      return {success: true}
+    }
     let incompleteCount = 0
     lists.forEach((list) => {
       let items = list['checkItems']
@@ -80,6 +85,13 @@ module.exports = {
   },
 
   pullRequestAttachment: (card, options) => {
+    let cardCategory = cardUtilities.getCardCategory(card)
+    // if card is not of development category, then return success.
+    // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
+    if(cardCategory != 'development') {
+      return {success: true}
+    }
+
     let attachments = card.attachments
 
     let isPRPresent = false

@@ -10,27 +10,21 @@ class Card {
   }
 
   handlerDispatcher() {
-    let cardId = this.action.data.card.id
-    cardUtilities.fetchCard(cardId, {attachments: true, checklists: 'all'}).then((card) => {
-      let cardCategory = cardUtilities.getCardCategory(card)
-      switch(this.action.type) {
-      case 'createCard':
-        this.handlerCreateCard(card, {cardCategory: cardCategory})
-        break
-      case 'updateCard':
-        this.handleUpdateCard(card, {cardCategory: cardCategory})
-        break
-      case 'deleteCard':
-        this.handleArchivedCardAction(card)
-        break
-      }
-    }).catch((error) => {
-      logger.error(error)
-    })
+    switch(this.action.type) {
+    case 'createCard':
+      this.handlerCreateCard()
+      break
+    case 'updateCard':
+      this.handleUpdateCard()
+      break
+    case 'deleteCard':
+      this.handleArchivedCardAction()
+      break
+    }
     return
   }
 
-  handlerCreateCard(card, options) {
+  handlerCreateCard() {
     let rules = [
       'titleWordCount',
       'titleTitleize',
@@ -38,42 +32,37 @@ class Card {
       'labels',
       'listOfNewCard'
     ]
-    this.executeRules(card, rules, 'createCard')
+    this.executeRules(rules, 'createCard')
   }
 
-  handleUpdateCard(card, options) {
+  handleUpdateCard() {
     let rules = []
     switch(this.action.display.translationKey) {
     case 'action_move_card_from_list_to_list':
-      rules = this.getListRules(card, options)
+      rules = this.getListRules()
       break
     case 'action_archived_card':
-      this.handleArchivedCardAction(card)
+      this.handleArchivedCardAction()
       break
     }
 
-    // If rules are empty, return.
-    if(!rules)
-      return
-    this.executeRules(card, rules, 'updateCard')
+    this.executeRules(rules, 'updateCard')
   }
 
-  handleArchivedCardAction(card) {
-    cardUtilities.deleteCardDoc(card.id)
+  handleArchivedCardAction() {
+    let cardId = this.action.data.card.id
+    cardUtilities.deleteCardDoc(cardId)
   }
 
-  getListRules(card, options) {
+  getListRules() {
+    let cardList = this.action.data.listAfter.name.toLowerCase()
+
     let rules = []
-    let cardList = card.list.name.toLowerCase();
     if(cardList == 'in progress') {
       rules.push('inProgressListMembersRequired', 'dueDate')
     }
-    if(cardList == 'in review' && card.checklists.length > 0) {
-      rules.push('checkListItemStateCompletion')
-    }
-    // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
-    if(cardList == 'in review' && options.cardCategory == 'development') {
-      rules.push('pullRequestAttachment')
+    if(cardList == 'in review') {
+      rules.push('checkListItemStateCompletion', 'pullRequestAttachment')
     }
     // rule to check if due date is marked as complete or not.
     if(cardList == 'merged' || cardList == 'done') {
@@ -82,17 +71,28 @@ class Card {
     return rules
   }
 
-  executeRules(card, rules, eventType) {
-    let options = {actionData: this.action.data}
-
-    let result = cardUtilities.executeRules(card, rules, options)
-
-    if(result.ticketValid) {
-      // if ticket is valid, delete the entry from DB.
-      cardUtilities.deleteCardDoc(card.id)
-    } else {
-      this.handleInvalidCard(card, result.errorMessages, eventType)
+  executeRules(rules, eventType) {
+    // if rules are empty, just return
+    if(!rules.length) {
+      return
     }
+
+    let cardId = this.action.data.card.id
+    cardUtilities.fetchCard(cardId, {attachments: true, checklists: 'all'}).then((card) => {
+      let options = {actionData: this.action.data}
+      let result = cardUtilities.executeRules(card, rules, options)
+
+      if(result.ticketValid) {
+        // if ticket is valid, delete the entry from DB.
+        cardUtilities.deleteCardDoc(card.id)
+      } else {
+        this.handleInvalidCard(card, result.errorMessages, eventType)
+      }
+    }, (error) => {
+      logger.error(error)
+    }).catch((exception) => {
+      logger.error(exception)
+    })
   }
 
   handleInvalidCard(card, errorMessages, eventType) {
