@@ -77,6 +77,10 @@ class Card {
     if(listAfter == 'in review' && options.cardCategory == 'development') {
       rules.push('checkPullRequestAttachment')
     }
+    // rule to check if due date is marked as complete or not.
+    if(listAfter == 'merged' || listAfter == 'done') {
+      rules.push('dueDateComplete')
+    }
     return rules
   }
 

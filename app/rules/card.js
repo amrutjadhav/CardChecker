@@ -30,6 +30,12 @@ module.exports = {
     return {success: true}
   },
 
+  dueDateComplete: (card, options) => {
+    if(!card.dueComplete)
+      return {success: false, msg: msgTemplate.rules.card.dueDateComplete}
+    return {success: true}
+  },
+
   labels: (card, options) => {
     if(card['idLabels'].length < 2)
       return {success: false, msg: msgTemplate['rules']['card']['labels']}

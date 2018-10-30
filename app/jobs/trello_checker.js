@@ -55,8 +55,12 @@ class TrelloChecker {
     if(cardList == 'in review' && card['idChecklists'].length > 0) {
       rules.push('checkListItemStateCompletion')
     }
-    if(listAfter == 'in review' && cardCategory == 'development') {
+    if(cardList == 'in review' && cardCategory == 'development') {
       rules.push('checkPullRequestAttachment')
+    }
+    // rule to check if due date is marked as complete or not.
+    if(cardList == 'merged' || cardList == 'done') {
+      rules.push('dueDateComplete')
     }
     return rules
   }
