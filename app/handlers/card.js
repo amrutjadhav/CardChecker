@@ -45,7 +45,7 @@ class Card {
     let rules = []
     switch(this.action.display.translationKey) {
     case 'action_move_card_from_list_to_list':
-      rules = this.getListToListCardMoveRules(card, options)
+      rules = this.getListRules(card, options)
       break
     case 'action_archived_card':
       this.handleArchivedCardAction(card)
@@ -62,23 +62,21 @@ class Card {
     cardUtilities.deleteCardDoc(card.id)
   }
 
-  getListToListCardMoveRules(card, options) {
-    let data = this.action.data
+  getListRules(card, options) {
     let rules = []
-    // let listBefore = data['listBefore']['name'].toLowerCase()
-    let listAfter = data.listAfter.name.toLowerCase()
-    if(listAfter == 'in progress') {
+    let cardList = card.list.name.toLowerCase();
+    if(cardList == 'in progress') {
       rules.push('inProgressListMembersRequired', 'dueDate')
     }
-    if(listAfter == 'in review' && card.checklists.length > 0) {
+    if(cardList == 'in review' && card.checklists.length > 0) {
       rules.push('checkListItemStateCompletion')
     }
     // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
-    if(listAfter == 'in review' && options.cardCategory == 'development') {
+    if(cardList == 'in review' && options.cardCategory == 'development') {
       rules.push('pullRequestAttachment')
     }
     // rule to check if due date is marked as complete or not.
-    if(listAfter == 'merged' || listAfter == 'done') {
+    if(cardList == 'merged' || cardList == 'done') {
       rules.push('dueDateComplete')
     }
     return rules
