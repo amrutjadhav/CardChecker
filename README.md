@@ -33,7 +33,7 @@ To configure this app to your development ecosystem, it provides multiple API
 ##### Defaults
 - Currently, **CardChecker** only checks PR from *BitBucket*.
 
-*Most of the default described above will be configurable through the confguration API.*
+*App still work on most of the default configuration and Trello flow. In coming days, configuration API will add API's so that you can configure your own workflow.*
 
 ###### Companies using **CardChecker**
 - [HivesLab](https://www.hiveslab.com/)
