@@ -31,9 +31,10 @@ To configure this app to your development ecosystem, it provides multiple API
         2. **idModel** - Id of trello board.
 
 ##### Defaults
-- Currently, **CardChecker** only checks PR from *BitBucket*.
+- **CardChecker** support *BitBucket* as version control hosting provider.
+- **CardChecker** works on a fixed worklow. Here is sample [Trello flow](https://trello.com/invite/b/hHZYLLjy/2359fb2e40a4264f9c606936fb8d9aba/trello-flow-example)
 
-*App still work on most of the default configuration and Trello flow. In coming days, configuration API will add API's so that you can configure your own workflow.*
+*App still work on most of the default configuration and Trello flow. In coming days, configuration API will add API's so that you can build your own workflow and configure rules according to your need.*
 
 ###### Companies using **CardChecker**
 - [HivesLab](https://www.hiveslab.com/)
