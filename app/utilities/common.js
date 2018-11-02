@@ -12,7 +12,9 @@ const commonUtilities = {
     }
 
     if(config.boards[boardId]) {
-      return config.boards[boardId]
+      let boardConfig = config.boards[boardId]
+      // Merge company level default config with board config.
+      return Object.assign(config.company, boardConfig)
     } else {
       return config.company
     }
