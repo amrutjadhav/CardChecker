@@ -1,0 +1,29 @@
+{
+  "company": {
+    "card": {
+      "rules": [
+        "labels",
+        "listOfNewCard",
+        "titleTitleize",
+        "titleWordCount",
+        "descriptionAvailabilty"
+      ]
+    },
+    "lists": {
+      "in progress": [
+        "dueDate",
+        "members"
+      ],
+      "in review": [
+        "checkListItemStateCompletion",
+        "pullRequestAttachment"
+      ],
+      "done": [
+        "dueDateComplete"
+      ]
+    }
+  },
+  "boards": {
+
+  }
+}
