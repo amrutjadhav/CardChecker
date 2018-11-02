@@ -46,7 +46,7 @@ setInterval(() => {
     console.log('running checker job')
     new trelloCheckerJob()
   }
-}, (25*60*1000))
+}, config.defaults.checkerJobDelay * 60 * 100)
 
 mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true})
   .then(() => {
