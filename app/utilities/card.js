@@ -58,7 +58,6 @@ const cardUtilities = {
     let errorMessages = []
     const cardRules = require('../rules/card')
     rules.forEach(function(rule) {
-      // @todo add method check here
       let result = cardRules[rule](card, options)
       if(!result['success']) {
         ticketValid = false

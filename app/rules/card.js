@@ -98,8 +98,7 @@ module.exports = {
     attachments.forEach((attachment) => {
       let url = attachment.url
       let vcHostingDomainRegex = new RegExp(config.defaults.vcHostingDomain)
-      // @todo git platform is hard coded right now! There are lots of things hard coded. In future, these can be customizable so that
-      // every organization can fit this app in their workflow.
+
       if(url.match(vcHostingDomainRegex)) {
         isPRPresent = true
       }
