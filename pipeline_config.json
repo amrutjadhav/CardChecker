@@ -1,6 +1,9 @@
 {
   "company": {
     "vcHostingDomain": "https://bitbucket.org/",
+    "officeStartHour": "09:00",
+    "officeEndHour": "20:00",
+    "weekendDays": [0, 6],
     "card": {
       "rules": [
         "labels",
