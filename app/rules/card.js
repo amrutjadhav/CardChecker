@@ -1,5 +1,6 @@
 const msgTemplate = require('../message_template')
 const cardUtilities = require('../utilities/card')
+const commonUtilities = require('../utilities/common')
 
 module.exports = {
   titleWordCount: (card, options) => {
@@ -80,6 +81,7 @@ module.exports = {
 
   pullRequestAttachment: (card, options) => {
     let cardCategory = cardUtilities.getCardCategory(card)
+    let config = commonUtilities.getScopeConfig(card.idBoard)
     // if card is not of development category, then return success.
     // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
     if(cardCategory != 'development') {
@@ -90,10 +92,11 @@ module.exports = {
 
     let isPRPresent = false
     attachments.forEach((attachment) => {
-      let url = attachment['url']
+      let url = attachment.url
+      let vcHostingDomainRegex = new RegExp(config.vcHostingDomain)
       // @todo git platform is hard coded right now! There are lots of things hard coded. In future, these can be customizable so that
       // every organization can fit this app in their workflow.
-      if(url.match(/https:\/\/bitbucket.org\//)) {
+      if(url.match(vcHostingDomainRegex)) {
         isPRPresent = true
       }
     })

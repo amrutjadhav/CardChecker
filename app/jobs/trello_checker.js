@@ -41,7 +41,7 @@ class TrelloChecker {
   }
 
   getRules(card) {
-    let config = commonUtilities.getScopeConfig(this.action.data.board.id)
+    let config = commonUtilities.getScopeConfig(card.idBoard)
     let rules = config.card.rules
 
     // push rules of individual list.

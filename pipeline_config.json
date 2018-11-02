@@ -1,5 +1,6 @@
 {
   "company": {
+    "vcHostingDomain": "https://bitbucket.org/",
     "card": {
       "rules": [
         "labels",
