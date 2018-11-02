@@ -59,7 +59,7 @@ class Card {
 
     let rules = []
     if(cardList == 'in progress') {
-      rules.push('inProgressListMembersRequired', 'dueDate')
+      rules.push('members', 'dueDate')
     }
     if(cardList == 'in review') {
       rules.push('checkListItemStateCompletion', 'pullRequestAttachment')

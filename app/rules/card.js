@@ -56,12 +56,6 @@ module.exports = {
     return {success: true}
   },
 
-  inProgressListMembersRequired: (card, options) => {
-    if(card.idMembers.length < 1)
-      return {success: false, msg: msgTemplate.rules.card.inProgressListMembersRequired}
-    return {success: true}
-  },
-
   checkListItemStateCompletion: (card, options) => {
     let lists = card.checklists
     // if card don't have checklist items, return success.

@@ -50,7 +50,7 @@ class TrelloChecker {
     let cardList = card.list.name.toLowerCase()
 
     if(cardList == 'in progress') {
-      rules.push('inProgressListMembersRequired', 'dueDate')
+      rules.push('members', 'dueDate')
     }
     if(cardList == 'in review' && card.idChecklists.length > 0) {
       rules.push('checkListItemStateCompletion')
