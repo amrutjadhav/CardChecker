@@ -20,7 +20,7 @@ const cardUtilities = {
 
   createCardDoc: (card) => {
     return new Promise((resolve, reject) => {
-      let cardDocument = new cardModel({ card_id: card['id'] })
+      let cardDocument = new cardModel({ card_id: card.id })
       cardDocument.save((error, doc) => {
         if(error) {
           reject(error)

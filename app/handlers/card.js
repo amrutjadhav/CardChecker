@@ -26,10 +26,14 @@ class Card {
   }
 
   handlerCreateCard() {
-    let config = commonUtilities.getScopeConfig(this.action.data.board.id)
-    let rules = config.cardRules
-
-    this.executeRules(rules, 'createCard')
+    let card = {id: this.action.data.card.id}
+    cardUtilities.createCardDoc(card).then((doc)=> {
+      logger.info('saved card.')
+    }, (error) => {
+      logger.error(error)
+    }).catch((error) => {
+      logger.error(error)
+    })
   }
 
   handleUpdateCard() {
