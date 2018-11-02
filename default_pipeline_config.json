@@ -4,6 +4,20 @@
     "officeStartHour": "09:00",
     "officeEndHour": "20:00",
     "weekendDays": [0, 6],
+    "ruleConfig": {
+      "titleWordCount": {
+        "min" : 2
+      },
+      "labels" : {
+        "min": 2
+      },
+      "members": {
+        "min": 1
+      },
+      "listOfNewCard": {
+        "listName" : "tasks"
+      }
+    },
     "card": {
       "rules": [
         "labels",

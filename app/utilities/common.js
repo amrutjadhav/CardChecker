@@ -1,4 +1,4 @@
-const pipelineConfig = require('../../pipeline_config.json')
+const pipelineConfig = require('../../default_pipeline_config.json')
 
 const commonUtilities = {
   getScopeConfig: (boardId) => {
