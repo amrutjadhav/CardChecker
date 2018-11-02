@@ -6,8 +6,9 @@ module.exports = {
   titleWordCount: (card, options) => {
     let title = card.name
     let wordsCount = title.split(' ').length
+    let config = commonUtilities.getScopeConfig(card.idBoard)
 
-    if(wordsCount < 2)
+    if(wordsCount < config.ruleConfig.titleWordCount.min)
       return {success: false, msg: msgTemplate.rules.card.titleWordCount}
     return {success: true}
   },
@@ -39,20 +40,23 @@ module.exports = {
   },
 
   labels: (card, options) => {
-    if(card.idLabels.length < 2)
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    if(card.idLabels.length < config.ruleConfig.labels.min)
       return {success: false, msg: msgTemplate.rules.card.labels}
     return {success: true}
   },
 
   members: (card, options) => {
-    if(card.idMembers.length < 1)
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    if(card.idMembers.length < config.ruleConfig.members.min)
       return {success: false, msg: msgTemplate.rules.card.members}
     return {success: true}
   },
 
   listOfNewCard: (card, options) => {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
     let listName = options.actionData.list.name.toLowerCase()
-    if(listName != 'tasks')
+    if(listName != config.ruleConfig.listOfNewCard.listName)
       return {success: false, msg: msgTemplate.rules.card.listOfNewCard}
     return {success: true}
   },
