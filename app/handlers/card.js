@@ -2,6 +2,7 @@ const slackPublisher = require('../publishers/slack')
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
 const cardUtilities = require('../utilities/card')
+const commonUtilities = require('../utilities/common')
 
 class Card {
   constructor(action) {
@@ -25,13 +26,9 @@ class Card {
   }
 
   handlerCreateCard() {
-    let rules = [
-      'titleWordCount',
-      'titleTitleize',
-      'descriptionAvailabilty',
-      'labels',
-      'listOfNewCard'
-    ]
+    let config = commonUtilities.getScopeConfig(this.action.data.board.id)
+    let rules = config.card.rules
+
     this.executeRules(rules, 'createCard')
   }
 
@@ -56,18 +53,9 @@ class Card {
 
   getListRules() {
     let cardList = this.action.data.listAfter.name.toLowerCase()
+    let config = commonUtilities.getScopeConfig(this.action.data.board.id)
+    let rules = config.lists[cardList]
 
-    let rules = []
-    if(cardList == 'in progress') {
-      rules.push('members', 'dueDate')
-    }
-    if(cardList == 'in review') {
-      rules.push('checkListItemStateCompletion', 'pullRequestAttachment')
-    }
-    // rule to check if due date is marked as complete or not.
-    if(cardList == 'merged' || cardList == 'done') {
-      rules.push('dueDateComplete')
-    }
     return rules
   }
 
