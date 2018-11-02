@@ -42,11 +42,11 @@ class TrelloChecker {
 
   getRules(card) {
     let config = commonUtilities.getScopeConfig(card.idBoard)
-    let rules = config.card.rules
+    let rules = config.cardRules
 
     // push rules of individual list.
     let cardList = card.list.name.toLowerCase()
-    rules = rules.concat(config.lists[cardList])
+    rules = rules.concat(config.listRules[cardList])
 
     return rules
   }

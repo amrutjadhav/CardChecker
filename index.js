@@ -37,9 +37,9 @@ setInterval(() => {
   let date = moment().tz('Asia/Kolkata')
   let config = commonUtilities.getScopeConfig(undefined)
 
-  if(!config.weekendDays.includes(date.format('e')) &&
-     date >= moment(config.officeStartHour).tz('Asia/Kolkata') &&
-     date <= moment(config.officeEndHour).tz('Asia/Kolkata')
+  if(!config.defaults.weekendDays.includes(date.format('e')) &&
+     date >= moment(config.defaults.officeStartHour).tz('Asia/Kolkata') &&
+     date <= moment(config.defaults.officeEndHour).tz('Asia/Kolkata')
    ) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.

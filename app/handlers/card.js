@@ -27,7 +27,7 @@ class Card {
 
   handlerCreateCard() {
     let config = commonUtilities.getScopeConfig(this.action.data.board.id)
-    let rules = config.card.rules
+    let rules = config.cardRules
 
     this.executeRules(rules, 'createCard')
   }
@@ -54,7 +54,7 @@ class Card {
   getListRules() {
     let cardList = this.action.data.listAfter.name.toLowerCase()
     let config = commonUtilities.getScopeConfig(this.action.data.board.id)
-    let rules = config.lists[cardList]
+    let rules = config.listRules[cardList]
 
     return rules
   }

@@ -1,9 +1,11 @@
 {
   "company": {
-    "vcHostingDomain": "https://bitbucket.org/",
-    "officeStartHour": "09:00",
-    "officeEndHour": "20:00",
-    "weekendDays": [0, 6],
+    "defaults": {
+      "vcHostingDomain": "https://bitbucket.org/",
+      "officeStartHour": "09:00",
+      "officeEndHour": "20:00",
+      "weekendDays": [0, 6],
+    },
     "ruleConfig": {
       "titleWordCount": {
         "min" : 2
@@ -18,16 +20,14 @@
         "listName" : "tasks"
       }
     },
-    "card": {
-      "rules": [
-        "labels",
-        "listOfNewCard",
-        "titleTitleize",
-        "titleWordCount",
-        "descriptionAvailabilty"
-      ]
-    },
-    "lists": {
+    "cardRules":[
+      "labels",
+      "listOfNewCard",
+      "titleTitleize",
+      "titleWordCount",
+      "descriptionAvailabilty"
+    ],
+    "listRules": {
       "in progress": [
         "dueDate",
         "members"
