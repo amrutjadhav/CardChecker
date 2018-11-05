@@ -1,9 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
-const defaultPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../default_pipeline_config.yml'), 'utf8'));
-const customPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../pipeline_config.yml'), 'utf8'));
-const pipelineConfig = Object.assign(defaultPipelineConfig, customPipelineConfig)
+var pipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../default_pipeline_config.yml'), 'utf8'));
+if(fs.existsSync('../../pipeline_config.yml')) {
+  var customPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../pipeline_config.yml'), 'utf8'));
+  pipelineConfig = Object.assign(pipelineConfig, customPipelineConfig)
+}
 
 const commonUtilities = {
   getScopeConfig: (boardId) => {
