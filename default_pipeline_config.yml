@@ -31,7 +31,7 @@ company:
       min: 1
       # Minimum number of labels for Trello card.
     listOfNewCard:
-      listName:
+      listName: tasks
       # Starting list of Trello card.
   cardRules:
     # Specify the default rules which would be applied to every Trello card.
