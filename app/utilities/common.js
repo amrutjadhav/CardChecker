@@ -1,5 +1,7 @@
 const fs = require('fs')
-const pipelineConfig = require('../../default_pipeline_config.json')
+const path = require('path')
+const yaml = require('js-yaml')
+const pipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../default_pipeline_config.yml'), 'utf8'));
 
 const commonUtilities = {
   getScopeConfig: (boardId) => {
@@ -11,7 +13,7 @@ const commonUtilities = {
       config = Object.assign(config, userConfig)
     }
 
-    if(config.boards[boardId]) {
+    if(config.boards && config.boards[boardId]) {
       let boardConfig = config.boards[boardId]
       // Merge company level default config with board config.
       return Object.assign(config.company, boardConfig)
