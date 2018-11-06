@@ -1,13 +1,13 @@
 # CardChecker
 Trello card checker which checks whether your employees are following the card standards or not.
 
-###### How this works?
+#### How this works?
 1. Your employee creates Trello card.
 2. CardChecker gets the action on webhook.
 3. CardChecker validates the card against the standard rules
 4. If card lack to fit in rules, it sends notification on the slack channel. Isn't that cool?😎
 
-###### How to setup?
+#### How to setup?
 1. Get the *Slack* incoming webhook for public channel and set to *SLACK_WEBOOK_URL* environment variable.
     - Incoming webhook reference = https://api.slack.com/incoming-webhooks
 2. Get *Trello* token and app-key and set it to *TRELLO_TOKEN* and *TRELLO_KEY* environment variables.
@@ -21,7 +21,7 @@ Trello card checker which checks whether your employees are following the card s
     - `curl 'https://api.trello.com/1/members/me/boards?key={yourKey}&token={yourToken}'`
 6. Subscribe the webhook to Trello board using our configuration API described below
 
-##### Configuration
+#### Configuration
 Everyone has their own unique development flow. Keeping this mind, **CardChecker** provides multiple ways to customize their development pipeline and adjust filters.
 
 1. **Pipeline Config file**
@@ -34,7 +34,7 @@ Everyone has their own unique development flow. Keeping this mind, **CardChecker
             1. **description** - To identify the trello webhook
             2. **idModel** - Id of trello board.
 
-##### Rules
+#### Rules
 **CardChecker** comes with predefined rules to validate your cards. Most of these rules are configurable through `pipeline_config.yml` file. Below is the list of currently available rules. It also specifies keys which you can specify in `pipeline_config.yml` file to alter the behavior of rule.
 1. ###### titleWordCount
     Check word count in the title of a card.
@@ -61,5 +61,5 @@ Everyone has their own unique development flow. Keeping this mind, **CardChecker
 10. ###### pullRequestRequired
     Check whether pull request is attached to card as attachement or not.
     - *vcHostingDomain* - Version control hosting service domain name.
-###### Companies using **CardChecker**
+##### Companies using **CardChecker**
 - [HivesLab](https://www.hiveslab.com/)
