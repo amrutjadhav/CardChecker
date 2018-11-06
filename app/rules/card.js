@@ -21,15 +21,15 @@ module.exports = {
     return {success: true}
   },
 
-  descriptionAvailabilty: (card, options) => {
+  descriptionRequired: (card, options) => {
     if(!card.desc)
-      return {success: false, msg: msgTemplate.rules.card.descriptionAvailabilty}
+      return {success: false, msg: msgTemplate.rules.card.descriptionRequired}
     return {success: true}
   },
 
-  dueDate: (card, options) => {
+  dueDateRequired: (card, options) => {
     if(!card.due)
-      return {success: false, msg: msgTemplate.rules.card.dueDate}
+      return {success: false, msg: msgTemplate.rules.card.dueDateRequired}
     return {success: true}
   },
 
@@ -39,17 +39,17 @@ module.exports = {
     return {success: true}
   },
 
-  labels: (card, options) => {
+  labelsRequired: (card, options) => {
     let config = commonUtilities.getScopeConfig(card.idBoard)
-    if(card.idLabels.length < config.ruleConfig.labels.min)
-      return {success: false, msg: msgTemplate.rules.card.labels}
+    if(card.idLabels.length < config.ruleConfig.labelsRequired.min)
+      return {success: false, msg: msgTemplate.rules.card.labelsRequired}
     return {success: true}
   },
 
-  members: (card, options) => {
+  membersRequired: (card, options) => {
     let config = commonUtilities.getScopeConfig(card.idBoard)
-    if(card.idMembers.length < config.ruleConfig.members.min)
-      return {success: false, msg: msgTemplate.rules.card.members}
+    if(card.idMembers.length < config.ruleConfig.membersRequired.min)
+      return {success: false, msg: msgTemplate.rules.card.membersRequired}
     return {success: true}
   },
 
@@ -83,7 +83,7 @@ module.exports = {
     return {success: true}
   },
 
-  pullRequestAttachment: (card, options) => {
+  pullRequestRequired: (card, options) => {
     let cardCategory = cardUtilities.getCardCategory(card)
     let config = commonUtilities.getScopeConfig(card.idBoard)
     // if card is not of development category, then return success.
@@ -105,7 +105,7 @@ module.exports = {
     })
 
     if(!isPRPresent) {
-      return {success: false, msg: msgTemplate.rules.card.pullRequestAttachment}
+      return {success: false, msg: msgTemplate.rules.card.pullRequestRequired}
     }
     return {success: true}
   }
