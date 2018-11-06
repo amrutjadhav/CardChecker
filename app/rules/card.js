@@ -97,7 +97,7 @@ module.exports = {
     let isPRPresent = false
     attachments.forEach((attachment) => {
       let url = attachment.url
-      let vcHostingDomainRegex = new RegExp(config.defaults.vcHostingDomain)
+      let vcHostingDomainRegex = new RegExp(config.ruleConfig.pullRequestRequired.vcHostingDomain)
 
       if(url.match(vcHostingDomainRegex)) {
         isPRPresent = true
