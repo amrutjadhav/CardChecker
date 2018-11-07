@@ -33,6 +33,7 @@ company:
       # Starting list of Trello card.
     pullRequestRequired:
       vcHostingDomain: https://bitbucket.org/
+      ignoreLabel: Non Dev
       # Version control hosting service domain.
   cardRules:
     # Specify the default rules which would be applied to every Trello card.

@@ -31,26 +31,21 @@ const cardUtilities = {
   },
 
   /**
-   * Get the card category eg. development, other
-   * Category helps to decide which rule should be applied to card.
-   * Support categories - development, other
-   * Default category is set to `development`.
+   * Check if a specified label is present on card or not.
    * @param  {Object}  card Trello card Object.
-   * @return {String} Category of card
+   * @param {String} labelName Name of label which you want to check on card.
+   * @return {Boolean} Whether label is present or not?
    */
-  getCardCategory: (card) => {
-    // Currently to check whether card is dev or not, it only check the label naming 'development'.
-    // @todo make this configurable.
-    let labels = card.labels
-    let category = 'development'
-
-    labels.forEach((labelObject) => {
+  checkLabel: (card, labelName) => {
+    let labelNameRegex = new RegExp(labelName)
+    let labelPresent = false
+    card.labels.forEach((labelObject) => {
       let name = labelObject.name.toLowerCase()
-      if(name.match(/^.*non\sdev.*$/)) {
-        category = 'other'
+      if(name.match(labelNameRegex)) {
+        labelPresent = true
       }
     })
-    return category
+    return labelPresent
   },
 
   executeRules: (card, rules, options) => {

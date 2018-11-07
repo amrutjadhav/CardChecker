@@ -84,18 +84,14 @@ module.exports = {
   },
 
   pullRequestRequired: (card, options) => {
-    let cardCategory = cardUtilities.getCardCategory(card)
     let config = commonUtilities.getScopeConfig(card.idBoard)
-    // if card is not of development category, then return success.
-    // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
-    if(cardCategory != 'development') {
+    let labelPresent = cardUtilities.checkLabel(card, config.ruleConfig.pullRequestRequired.ignoreLabel)
+    if(labelPresent) {
       return {success: true}
     }
 
-    let attachments = card.attachments
-
     let isPRPresent = false
-    attachments.forEach((attachment) => {
+    card.attachments.forEach((attachment) => {
       let url = attachment.url
       let vcHostingDomainRegex = new RegExp(config.ruleConfig.pullRequestRequired.vcHostingDomain)
 
