@@ -39,7 +39,6 @@ company:
     # Specify the default rules which would be applied to every Trello card.
     # It is array of rule names.
     - labelsRequired
-    - listOfNewCard
     - titleTitleize
     - titleWordCount
     - descriptionRequired

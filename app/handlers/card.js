@@ -7,6 +7,7 @@ const commonUtilities = require('../utilities/common')
 class Card {
   constructor(action) {
     this.action = action
+    this.pipelineConfig = commonUtilities.getScopeConfig(this.action.data.board.id)
     this.handlerDispatcher()
   }
 
@@ -37,10 +38,10 @@ class Card {
   }
 
   handleUpdateCard() {
-    let rules = []
+    let rules = this.pipelineConfig.cardRules
     switch(this.action.display.translationKey) {
     case 'action_move_card_from_list_to_list':
-      rules = this.getListRules()
+      rules = rules.concat(this.getListRules())
       break
     case 'action_archived_card':
       this.handleArchivedCardAction()
@@ -57,10 +58,9 @@ class Card {
 
   getListRules() {
     let cardList = this.action.data.listAfter.name.toLowerCase()
-    let config = commonUtilities.getScopeConfig(this.action.data.board.id)
-    let rules = config.listRules[cardList]
-
-    return rules
+    if(this.pipelineConfig.listRules[cardList])
+      return this.pipelineConfig.listRules[cardList]
+    return []
   }
 
   executeRules(rules, eventType) {
