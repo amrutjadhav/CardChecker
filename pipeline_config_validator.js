@@ -1,7 +1,7 @@
 const logger = require('./config/logger')
 const fs = require('fs')
 const Ajv = require('ajv')
-const ajv = Ajv({allErrors: true});
+const ajv = Ajv({allErrors: true})
 const cardRules = require('./app/rules/card')
 
 class PipelineConfigValidator {
@@ -27,7 +27,7 @@ class PipelineConfigValidator {
         let boardConfig = commonUtilities.getScopeConfig(boardId)
         this.validateCommonSchema(boardConfig)
         this.validateRules(boardConfig)
-      });
+      })
     }
     process.exit(0)
   }
