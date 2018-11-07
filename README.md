@@ -25,7 +25,7 @@ Trello card checker which checks whether your employees are following the card s
 Everyone has their own unique development flow. Keeping this mind, **CardChecker** provides multiple ways to customize their development pipeline and adjust filters.
 
 1. **Pipeline Config file**
-  This config file allows a user to configure the pipeline and filters. App already has `default_pipeline_config.json` which describe default behavior of the app. You can override this file by creating a new file `pipeline_config.json` at the root. **CardChecker** will append specified configurations on defaults so you don't have to specify all in your file. To know more about the format of the config file, please refer, `default_pipeline_config.json`.
+  - This config file allows a user to configure the pipeline and filters. App already has `default_pipeline_config.json` under config directory, which describe default behavior of the app. You can override this file by creating a new file `pipeline_config.json` under same directory. **CardChecker** will append specified configurations on defaults so you don't have to specify all in your file. To know more about the format of the config file, please refer, `config/default_pipeline_config.json`.
 
 2. **CardChecker** uses *Trello* API to fetch card and validate it. To set your app as webhook for *Trello*, **CardChecker** provide useful API.
     -   **POST /configure/subscribe/trello/webhook**

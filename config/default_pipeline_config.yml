@@ -1,7 +1,7 @@
 # This file describe the pipeline configuration of app. You can override this configuration by creating
-# separate file named `pipeline_config.json`. CardChecker merge default configurations with yours so you don't have
-# to specify all the configurations. Just specify one's which you want to override. But make sure that
-# `pipeline_config.json` file follows the same format of `default_pipeline_config.json`.
+# separate file named `pipeline_config.json` under `config` directory. CardChecker merge default configurations
+# with yours so you don't have to specify all the configurations. Just specify one's which you want to override.
+# But make sure that `pipeline_config.json` file follows the same format of `default_pipeline_config.json`.
 
 company:
   # This is company level configuration. It will be applied to all the boards to whom CardChecker is evaluating.
