@@ -1,6 +1,6 @@
 const logger = require('./config/logger')
 const fs = require('fs')
-const Ajv = require('Ajv')
+const Ajv = require('ajv')
 const ajv = Ajv({allErrors: true});
 const cardRules = require('./app/rules/card')
 
