@@ -48,10 +48,10 @@ company:
     # Here every key, represents the name of list and its value, represents the array of rules which you want
     # to apply on Trello card. Make sure the rules list is array. For eg.
     in progress:
-      - dueDateRequired,
+      - dueDateRequired
       - membersRequired
     in review:
-      - checkListItemStateCompletion,
+      - checkListItemStateCompletion
       - pullRequestRequired
     done:
       - dueDateComplete
