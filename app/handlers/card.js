@@ -2,10 +2,12 @@ const slackPublisher = require('../publishers/slack')
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
 const cardUtilities = require('../utilities/card')
+const commonUtilities = require('../utilities/common')
 
 class Card {
   constructor(action) {
     this.action = action
+    this.pipelineConfig = commonUtilities.getScopeConfig(this.action.data.board.id)
     this.handlerDispatcher()
   }
 
@@ -25,21 +27,21 @@ class Card {
   }
 
   handlerCreateCard() {
-    let rules = [
-      'titleWordCount',
-      'titleTitleize',
-      'descriptionAvailabilty',
-      'labels',
-      'listOfNewCard'
-    ]
-    this.executeRules(rules, 'createCard')
+    let card = {id: this.action.data.card.id}
+    cardUtilities.createCardDoc(card).then((doc)=> {
+      logger.info('saved card.')
+    }, (error) => {
+      logger.error(error)
+    }).catch((error) => {
+      logger.error(error)
+    })
   }
 
   handleUpdateCard() {
-    let rules = []
+    let rules = this.pipelineConfig.cardRules
     switch(this.action.display.translationKey) {
     case 'action_move_card_from_list_to_list':
-      rules = this.getListRules()
+      rules = rules.concat(this.getListRules())
       break
     case 'action_archived_card':
       this.handleArchivedCardAction()
@@ -56,19 +58,9 @@ class Card {
 
   getListRules() {
     let cardList = this.action.data.listAfter.name.toLowerCase()
-
-    let rules = []
-    if(cardList == 'in progress') {
-      rules.push('inProgressListMembersRequired', 'dueDate')
-    }
-    if(cardList == 'in review') {
-      rules.push('checkListItemStateCompletion', 'pullRequestAttachment')
-    }
-    // rule to check if due date is marked as complete or not.
-    if(cardList == 'merged' || cardList == 'done') {
-      rules.push('dueDateComplete')
-    }
-    return rules
+    if(this.pipelineConfig.listRules[cardList])
+      return this.pipelineConfig.listRules[cardList]
+    return []
   }
 
   executeRules(rules, eventType) {

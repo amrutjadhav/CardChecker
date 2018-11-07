@@ -3,17 +3,16 @@ const template = {
     card: {
       titleWordCount: 'Please describe the ticket title in more descriptive way',
       titleTitleize: 'Title of ticket is not titliezed. Please make title titliezed',
-      descriptionAvailabilty: 'Ticket don\'t have description. Add some.',
-      dueDate: 'Ticket don\'t have a due date. Take responsibility and ownership of your tasks.',
+      descriptionRequired: 'Ticket don\'t have description. Add some.',
+      dueDateRequired: 'Ticket don\'t have a due date. Take responsibility and ownership of your tasks.',
       dueDateComplete: 'When card moves to *Merged*/*Done* list, due date should be mark as complete.',
-      labels: 'Ticket should have at least 2 labels. One for priority and other for classification.',
-      members: 'Please assign the ticket to someone.',
-      inProgressListMembersRequired: 'Card should be assigned to someone if it card is pushed to *In Progress*',
+      labelsRequired: 'Ticket should have at least 2 labels. One for priority and other for classification.',
+      membersRequired: 'Card should be assigned to someone if it is pushed to *In Progress*',
       listOfNewCard: 'Card should be created only in \'Task\' list.',
       checkListItemStateCompletion: (incompleteCount) => {
         return 'When the card is moved to *In Review* list, all the checklist items in card should be get completed. There are ' + incompleteCount + ' items, which are not completed yet.'
       },
-      pullRequestAttachment: 'When card moves to *In Review* list, it should have pull request attached to it.'
+      pullRequestRequired: 'When card moves to *In Review* list, it should have pull request attached to it.'
     }
   },
   controllers: {

@@ -1,7 +1,8 @@
-const logger = require('../../config/logger')
 const cardModel = require('../models/card')
+const logger = require('../../config/logger')
 const cardUtilities = require('../utilities/card')
 const slackPublisher = require('../publishers/slack')
+const commonUtilities = require('../utilities/common')
 
 class TrelloChecker {
 
@@ -40,28 +41,13 @@ class TrelloChecker {
   }
 
   getRules(card) {
-    let cardCategory = cardUtilities.getCardCategory(card)
-    let rules = [
-      'titleWordCount',
-      'titleTitleize',
-      'descriptionAvailabilty',
-      'labels'
-    ]
-    let cardList = card.list.name.toLowerCase()
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    let rules = config.cardRules
 
-    if(cardList == 'in progress') {
-      rules.push('inProgressListMembersRequired', 'dueDate')
-    }
-    if(cardList == 'in review' && card.idChecklists.length > 0) {
-      rules.push('checkListItemStateCompletion')
-    }
-    if(cardList == 'in review' && cardCategory == 'development') {
-      rules.push('pullRequestAttachment')
-    }
-    // rule to check if due date is marked as complete or not.
-    if(cardList == 'merged' || cardList == 'done') {
-      rules.push('dueDateComplete')
-    }
+    // push rules of individual list.
+    let cardList = card.list.name.toLowerCase()
+    rules = rules.concat(config.listRules[cardList])
+
     return rules
   }
 

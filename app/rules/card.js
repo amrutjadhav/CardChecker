@@ -1,12 +1,14 @@
 const msgTemplate = require('../message_template')
 const cardUtilities = require('../utilities/card')
+const commonUtilities = require('../utilities/common')
 
 module.exports = {
   titleWordCount: (card, options) => {
     let title = card.name
     let wordsCount = title.split(' ').length
+    let config = commonUtilities.getScopeConfig(card.idBoard)
 
-    if(wordsCount < 2)
+    if(wordsCount < config.ruleConfig.titleWordCount.min)
       return {success: false, msg: msgTemplate.rules.card.titleWordCount}
     return {success: true}
   },
@@ -19,15 +21,15 @@ module.exports = {
     return {success: true}
   },
 
-  descriptionAvailabilty: (card, options) => {
+  descriptionRequired: (card, options) => {
     if(!card.desc)
-      return {success: false, msg: msgTemplate.rules.card.descriptionAvailabilty}
+      return {success: false, msg: msgTemplate.rules.card.descriptionRequired}
     return {success: true}
   },
 
-  dueDate: (card, options) => {
+  dueDateRequired: (card, options) => {
     if(!card.due)
-      return {success: false, msg: msgTemplate.rules.card.dueDate}
+      return {success: false, msg: msgTemplate.rules.card.dueDateRequired}
     return {success: true}
   },
 
@@ -37,28 +39,25 @@ module.exports = {
     return {success: true}
   },
 
-  labels: (card, options) => {
-    if(card.idLabels.length < 2)
-      return {success: false, msg: msgTemplate.rules.card.labels}
+  labelsRequired: (card, options) => {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    if(card.idLabels.length < config.ruleConfig.labelsRequired.min)
+      return {success: false, msg: msgTemplate.rules.card.labelsRequired}
     return {success: true}
   },
 
-  members: (card, options) => {
-    if(card.idMembers.length < 1)
-      return {success: false, msg: msgTemplate.rules.card.members}
+  membersRequired: (card, options) => {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    if(card.idMembers.length < config.ruleConfig.membersRequired.min)
+      return {success: false, msg: msgTemplate.rules.card.membersRequired}
     return {success: true}
   },
 
   listOfNewCard: (card, options) => {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
     let listName = options.actionData.list.name.toLowerCase()
-    if(listName != 'tasks')
+    if(listName != config.ruleConfig.listOfNewCard.listName)
       return {success: false, msg: msgTemplate.rules.card.listOfNewCard}
-    return {success: true}
-  },
-
-  inProgressListMembersRequired: (card, options) => {
-    if(card.idMembers.length < 1)
-      return {success: false, msg: msgTemplate.rules.card.inProgressListMembersRequired}
     return {success: true}
   },
 
@@ -84,28 +83,25 @@ module.exports = {
     return {success: true}
   },
 
-  pullRequestAttachment: (card, options) => {
-    let cardCategory = cardUtilities.getCardCategory(card)
-    // if card is not of development category, then return success.
-    // PR only exists for dev cards, not for marketing or SEO tasks. So check here, if card category is development or not?
-    if(cardCategory != 'development') {
+  pullRequestRequired: (card, options) => {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+    let labelPresent = cardUtilities.checkLabel(card, config.ruleConfig.pullRequestRequired.ignoreLabel)
+    if(labelPresent) {
       return {success: true}
     }
 
-    let attachments = card.attachments
-
     let isPRPresent = false
-    attachments.forEach((attachment) => {
-      let url = attachment['url']
-      // @todo git platform is hard coded right now! There are lots of things hard coded. In future, these can be customizable so that
-      // every organization can fit this app in their workflow.
-      if(url.match(/https:\/\/bitbucket.org\//)) {
+    card.attachments.forEach((attachment) => {
+      let url = attachment.url
+      let vcHostingDomainRegex = new RegExp(config.ruleConfig.pullRequestRequired.vcHostingDomain)
+
+      if(url.match(vcHostingDomainRegex)) {
         isPRPresent = true
       }
     })
 
     if(!isPRPresent) {
-      return {success: false, msg: msgTemplate.rules.card.pullRequestAttachment}
+      return {success: false, msg: msgTemplate.rules.card.pullRequestRequired}
     }
     return {success: true}
   }
