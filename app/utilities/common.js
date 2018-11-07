@@ -22,6 +22,15 @@ const commonUtilities = {
     } else {
       return pipelineConfig.company
     }
+  },
+
+  getConfig: () => {
+    var pipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../config/default_pipeline_config.yml'), 'utf8'));
+    if(fs.existsSync(path.resolve(__dirname, '../../pipeline_config.yml'))) {
+      var customPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../config/pipeline_config.yml'), 'utf8'));
+      pipelineConfig = deeptMerge(pipelineConfig, customPipelineConfig, { arrayMerge: overwriteMerge })
+    }
+    return pipelineConfig
   }
 }
 module.exports = commonUtilities
