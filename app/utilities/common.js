@@ -9,9 +9,9 @@ const overwriteMerge = (dest, target, options) => {
 
 const commonUtilities = {
   getScopeConfig: (boardId) => {
-    var pipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../default_pipeline_config.yml'), 'utf8'));
+    var pipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../config/default_pipeline_config.yml'), 'utf8'));
     if(fs.existsSync(path.resolve(__dirname, '../../pipeline_config.yml'))) {
-      var customPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../pipeline_config.yml'), 'utf8'));
+      var customPipelineConfig = yaml.safeLoad(fs.readFileSync(path.resolve(__dirname, '../../config/pipeline_config.yml'), 'utf8'));
       pipelineConfig = deeptMerge(pipelineConfig, customPipelineConfig, { arrayMerge: overwriteMerge })
     }
 
