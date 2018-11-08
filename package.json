@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/amrutjadhav/CardChecker#readme",
   "dependencies": {
-    "@slack/client": "^3.16.1-sec.2",
     "ajv": "^6.5.5",
     "body-parser": "^1.18.3",
     "deepmerge": "^2.2.1",
