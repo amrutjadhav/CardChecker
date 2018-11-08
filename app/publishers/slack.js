@@ -1,7 +1,5 @@
-const { IncomingWebhook } = require('@slack/client')
-const url = process.env.SLACK_WEBHOOK_URL
-const webhook = new IncomingWebhook(url)
 const logger = require('../../config/logger')
+const request = require('request-promise-native')
 
 class Slack {
   constructor(options) {
@@ -15,12 +13,17 @@ class Slack {
       return
     }
     if(process.env.APP_ENV == 'production') {
-      webhook.send(msg, function(err, res) {
-        if (err) {
-          logger.error('Error:', err)
-        } else {
-          logger.info('Message sent on slack channel')
-        }
+      request({
+        uri: process.env.SLACK_WEBHOOK_URL,
+        method: 'POST',
+        body: msg,
+        json: true
+      }).then((result) => {
+        logger.info('message sent to Slack.')
+      }, (error) => {
+        logger.error(error)
+      }).catch((error) => {
+        logger.error(error)
       })
     } else {
       // if environment is other than production, just log the messages.
