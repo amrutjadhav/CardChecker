@@ -16,7 +16,7 @@ class Slack {
       request({
         uri: process.env.SLACK_WEBHOOK_URL,
         method: 'POST',
-        body: msg,
+        body: {text: msg},
         json: true
       }).then((result) => {
         logger.info('message sent to Slack.')

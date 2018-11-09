@@ -68,9 +68,7 @@ const cardUtilities = {
       msg += '- ' + error + '\n'
     })
     msg +=  card['shortUrl']
-    return {
-      text: msg
-    }
+    return msg
   }
 }
 
