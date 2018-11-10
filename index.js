@@ -11,7 +11,7 @@ const moment = require('moment-timezone')
 const commonUtilities = require('./app/utilities/common')
 const pipelineConfig = commonUtilities.getScopeConfig(undefined)
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
@@ -40,20 +40,20 @@ setInterval(() => {
   if(!pipelineConfig.defaults.weekendDays.includes(date.format('e')) &&
      date >= moment(pipelineConfig.defaults.officeStartHour).tz('Asia/Kolkata') &&
      date <= moment(pipelineConfig.defaults.officeEndHour).tz('Asia/Kolkata')
-   ) {
+  ) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.
-    console.log('running checker job')
+    logger.info('running checker job')
     new trelloCheckerJob()
   }
 }, pipelineConfig.defaults.checkerJobDelay * 60 * 100)
 
 mongoose.connect('mongodb://' + process.env.DB_URI, {useNewUrlParser: true, useCreateIndex: true})
   .then(() => {
-      logger.info('MONGODB CONNECTION SUCCESFULL');
-      app.listen(process.env.PORT, () => {
-        logger.info('Listening on ' + process.env.PORT)
-      })
-    }, (err) => {
-    logger.error('connection error:', err);
-  });
+    logger.info('MONGODB CONNECTION SUCCESFULL')
+    app.listen(process.env.PORT, () => {
+      logger.info('Listening on ' + process.env.PORT)
+    })
+  }, (err) => {
+    logger.error('connection error:', err)
+  })

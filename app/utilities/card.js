@@ -82,7 +82,6 @@ const cardUtilities = {
       default:
         logger.error(msg)
     }
-
   }
 }
 
