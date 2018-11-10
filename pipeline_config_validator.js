@@ -19,6 +19,7 @@ class PipelineConfigValidator {
     // validate company configuration
     let companyConfig = pipelineConfig.company
     this.validateCommonSchema(companyConfig)
+    this.validatePublisher(companyConfig)
     this.validateRules(companyConfig)
     // validate board configuration
     let boardsConfig = pipelineConfig.boards
@@ -26,10 +27,17 @@ class PipelineConfigValidator {
       Object.keys(boardsConfig).map((boardId, index) => {
         let boardConfig = commonUtilities.getScopeConfig(boardId)
         this.validateCommonSchema(boardConfig)
+        this.validatePublisher(boardConfig)
         this.validateRules(boardConfig)
       })
     }
     process.exit(0)
+  }
+
+  validatePublisher(scopeConfiguration) {
+    let publisher = scopeConfiguration.defaults.messagePublisher
+    if(!['slack', 'teams'].includes(publisher))
+      this.showError('Incorrect message publisher name')
   }
 
   validateRules(scopeConfiguration) {
@@ -86,6 +94,7 @@ class PipelineConfigValidator {
         'defaults': {
           'description': 'default values',
           'properties': {
+            'messagePublisher': {'type': 'string'},
             'officeStartHour': {'type': 'string'},
             'officeEndHour': {'type': 'string'},
             'weekendDays': {
@@ -99,6 +108,7 @@ class PipelineConfigValidator {
             }
           },
           'required': [
+          'messagePublisher',
             'officeStartHour',
             'officeEndHour',
             'weekendDays',
@@ -189,7 +199,9 @@ class PipelineConfigValidator {
   }
 
   showError(msg, options) {
-    logger.error(msg, options)
+    logger.error(msg)
+    if(options)
+      logger.error(options)
     process.exit(1)
   }
 }
