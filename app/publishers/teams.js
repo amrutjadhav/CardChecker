@@ -14,11 +14,10 @@ class Teams {
     }
 
     if(process.env.APP_ENV == 'production') {
-      let cardJSON = this.connectorCardJSON(msg)
       request({
         uri: process.env.TEAMS_WEBHOOK_URL,
         method: 'POST',
-        body: cardJSON,
+        body: {text: msg},
         json: true
       }).then((result) => {
         logger.info('message sent to Teams.')
@@ -30,23 +29,6 @@ class Teams {
     } else {
       // if environment is other than production, just log the messages.
       logger.info(msg)
-    }
-  }
-
-  connectorCardJSON(msg) {
-    return {
-      "contentType": "application/vnd.microsoft.teams.card.o365connector",
-      "content": {
-        "@type": "MessageCard",
-        "@context": "http://schema.org/extensions",
-        "summary": "Summary",
-        "title": "Connector Card HTML formatting",
-        "sections": [
-          {
-            'text': msg
-          }
-        ]
-      }
     }
   }
 }
