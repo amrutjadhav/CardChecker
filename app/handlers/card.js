@@ -118,10 +118,8 @@ class Card {
   }
 
   notifyErrors(card, errorMessages) {
-    // notify on slack
-    let titleMsg = '@' + this.action.memberCreator.username + '\n :white_frowning_face: Awwww! Looks like you didn\'t followed the trello ticket standards \n'
-    let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
-    new slackPublisher({msg: msg})
+    let titleMsg = '@' + this.action.memberCreator.username + '\n ☹️ Awwww! Looks like you didn\'t followed the trello ticket standards \n '
+    cardUtilities.notifyErrors(titleMsg, card, errorMessages, this.pipelineConfig.defaults.messagePublisher)
   }
 }
 

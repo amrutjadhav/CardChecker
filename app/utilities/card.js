@@ -2,6 +2,8 @@ const Trello = require('trello')
 const trello = new Trello(process.env.TRELLO_KEY, process.env.TRELLO_TOKEN)
 const logger = require('../../config/logger')
 const cardModel = require('../models/card')
+const slackPublisher = require('../publishers/slack')
+const teamsPublisher = require('../publishers/teams')
 
 const cardUtilities = {
 
@@ -62,15 +64,25 @@ const cardUtilities = {
     return {ticketValid: ticketValid, errorMessages: errorMessages}
   },
 
-  buildMessage(card, titleMsg, errorMessages) {
-    let msg = titleMsg
+  notifyErrors: (title, card, errorMessages, publisher) => {
+    let msg = title + '\n'
+    // notify on slack
     errorMessages.forEach((error) => {
       msg += '- ' + error + '\n'
     })
-    msg +=  card['shortUrl']
-    return {
-      text: msg
+    msg +=  '\n' + card['shortUrl']
+
+    switch(publisher) {
+      case 'slack':
+        new slackPublisher({msg: msg})
+        break
+      case 'teams':
+        new teamsPublisher({msg: msg})
+        break
+      default:
+        logger.error(msg)
     }
+
   }
 }
 

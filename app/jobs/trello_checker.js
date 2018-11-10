@@ -1,7 +1,6 @@
 const cardModel = require('../models/card')
 const logger = require('../../config/logger')
 const cardUtilities = require('../utilities/card')
-const slackPublisher = require('../publishers/slack')
 const commonUtilities = require('../utilities/common')
 
 class TrelloChecker {
@@ -63,6 +62,7 @@ class TrelloChecker {
   }
 
   handleInvalidCard(card, errorMessages) {
+    let config = commonUtilities.getScopeConfig(card.idBoard)
     cardModel.findOne({card_id: card.id}, (error, doc) => {
       if(error) {
         logger.info(error)
@@ -75,8 +75,7 @@ class TrelloChecker {
             let titleMsg = '😓 Again!!!!! \n *' + card.name + '* \n This card still has some unresolved standard issues. \
                             Fix it or I will not tired of notifying you! \n \
                             Warning number - ' + doc.warning_count + ' \n'
-            let msg = cardUtilities.buildMessage(card, titleMsg, errorMessages)
-            new slackPublisher({msg: msg})
+            cardUtilities.notifyErrors(titleMsg, card, errorMessages, config.defaults.messagePublisher)
           }
         })
       } else {
