@@ -36,8 +36,8 @@ class PipelineConfigValidator {
 
   validatePublisher(scopeConfiguration) {
     let publisher = scopeConfiguration.defaults.messagePublisher
-    if(!['slack', 'teams'].includes(publisher))
-      this.showError('Incorrect message publisher name')
+    if(!['slack', 'teams', 'flock'].includes(publisher))
+      this.showError('Incorrect message publisher name: ' + publisher)
   }
 
   validateRules(scopeConfiguration) {

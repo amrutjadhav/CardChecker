@@ -9,7 +9,7 @@ company:
     # Specify some default values which are constant across your company.
     messagePublisher: 'slack'
     # Specify on which platform, notification should be sent. Currently, CardChecker only
-    # support slack and teams
+    # support Slack, Teams and Flock.
     officeStartHour: "9:00"
     # Office start time. Please specify it in 24-hour clock time.
     officeEndHour: "20:00"

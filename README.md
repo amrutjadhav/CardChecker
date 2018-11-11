@@ -5,13 +5,17 @@ Trello card checker which checks whether your employees are following the card s
 1. Your employee creates Trello card.
 2. CardChecker gets the action on webhook.
 3. CardChecker validates the card against the standard rules
-4. If card lack to fit in rules, it sends notification on the slack/teams channel. Isn't that cool?😎
+4. If card lack to fit in rules, it sends notification on the Slack/Teams/Flock channel. Isn't that cool?😎
 
 #### How to setup?
-1. If you are using, Slack as messaging tool, Get the *Slack* incoming webhook for public channel and set to *SLACK_WEBOOK_URL* environment variable.
-    - [Incoming webhook reference](https://api.slack.com/incoming-webhooks)
-2. If you are using, Microsoft Teams as messaging tool, Get the *Teams* incoming webhook for public channel and set to *TEAMS_WEBOOK_URL* environment variable.
-    - [Incoming webhook reference](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/connectors/connectors-using#setting-up-a-custom-incoming-webhook)
+1. Setting incoming webhook URL. You can choose between Slack, Teams, Flock to publish notifications regarding **CardChecker**.
+
+    - If you are using, Slack as messaging tool, Get the *Slack* incoming webhook for public channel and set to *SLACK_WEBOOK_URL* environment variable.
+        - [How to setup incoming webhook on Slack?](https://api.slack.com/incoming-webhooks)
+    - If you are using, Microsoft Teams as messaging tool, Get the *Teams* incoming webhook for public channel and set to *TEAMS_WEBOOK_URL* environment variable.
+        - [How to setup incoming webhook on Teams?](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/connectors/connectors-using#setting-up-a-custom-incoming-webhook)
+    - If you are using, Flock as messaging tool, Get the *Flock* incoming webhook for public channel and set to *FLOCK_WEBOOK_URL* environment variable.
+        - [How to setup incoming webhook on flock?](https://docs.flock.com/display/flockos/Create+An+Incoming+Webhook)
 2. Get *Trello* token and app-key and set it to *TRELLO_TOKEN* and *TRELLO_KEY* environment variables.
   - Trello app key reference = https://trello.com/app-key
   - You can get Trello token for your personal account here = https://trello.com/app-key
