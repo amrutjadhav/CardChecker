@@ -74,17 +74,17 @@ const cardUtilities = {
 
     // Send message to configured publisher
     switch(publisher) {
-      case 'slack':
-        new slackPublisher({msg: msg})
-        break
-      case 'teams':
-        new teamsPublisher({msg: msg})
-        break
-      case 'flock':
-        new flockPublisher({msg: msg})
-        break
-      default:
-        logger.error(msg)
+    case 'slack':
+      new slackPublisher({msg: msg})
+      break
+    case 'teams':
+      new teamsPublisher({msg: msg})
+      break
+    case 'flock':
+      new flockPublisher({msg: msg})
+      break
+    default:
+      logger.error(msg)
     }
   }
 }

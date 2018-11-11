@@ -1,3 +1,4 @@
+require('dotenv').config()
 const logger = require('./config/logger')
 const fs = require('fs')
 const Ajv = require('ajv')
@@ -11,6 +12,7 @@ class PipelineConfigValidator {
   }
 
   validate() {
+    this.checkEnvVariables()
     const commonUtilities = require('./app/utilities/common')
     // get all the configuration irrespective of scope
     let pipelineConfig = commonUtilities.getConfig()
@@ -18,6 +20,7 @@ class PipelineConfigValidator {
     this.validateScopeLevelSchema(pipelineConfig)
     // validate company configuration
     let companyConfig = pipelineConfig.company
+    this.checkPublisherWebookURL(companyConfig.defaults.messagePublisher)
     this.validateCommonSchema(companyConfig)
     this.validatePublisher(companyConfig)
     this.validateRules(companyConfig)
@@ -26,12 +29,33 @@ class PipelineConfigValidator {
     if(boardsConfig) {
       Object.keys(boardsConfig).map((boardId, index) => {
         let boardConfig = commonUtilities.getScopeConfig(boardId)
+        this.checkPublisherWebookURL(boardConfig.defaults.messagePublisher)
         this.validateCommonSchema(boardConfig)
         this.validatePublisher(boardConfig)
         this.validateRules(boardConfig)
       })
     }
     process.exit(0)
+  }
+
+  checkPublisherWebookURL(publisher) {
+    publisher = publisher.toUpperCase()
+    let webhookURL = eval('process.env.' + publisher + '_WEBHOOK_URL')
+    if(!webhookURL)
+      this.showError('Set ' + publisher + '_WEBHOOK_URL env variable for ' + publisher + ' platform.')
+  }
+
+  checkEnvVariables() {
+    if(!process.env.TRELLO_TOKEN)
+      this.showError('Setup TRELLO_TOKEN env variable.')
+    if(!process.env.TRELLO_KEY)
+      this.showError('Setup TRELLO_KEY env variable.')
+    if(!process.env.TRELLO_CALLBACK_URL)
+      this.showError('Setup TRELLO_CALLBACK_URL env variable.')
+    if(!process.env.DB_URI)
+      this.showError('Setup DB_URI env variable.')
+    if(!process.env.APP_ENV)
+      this.showError('Setup APP_ENV env variable.')
   }
 
   validatePublisher(scopeConfiguration) {
