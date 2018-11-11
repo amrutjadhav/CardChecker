@@ -4,6 +4,7 @@ const logger = require('../../config/logger')
 const cardModel = require('../models/card')
 const slackPublisher = require('../publishers/slack')
 const teamsPublisher = require('../publishers/teams')
+const flockPublisher = require('../publishers/flock')
 
 const cardUtilities = {
 
@@ -78,6 +79,9 @@ const cardUtilities = {
         break
       case 'teams':
         new teamsPublisher({msg: msg})
+        break
+      case 'flock':
+        new flockPublisher({msg: msg})
         break
       default:
         logger.error(msg)
