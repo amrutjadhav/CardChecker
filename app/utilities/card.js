@@ -66,12 +66,12 @@ const cardUtilities = {
 
   notifyErrors: (title, card, errorMessages, publisher) => {
     let msg = title + '\n'
-    // notify on slack
     errorMessages.forEach((error) => {
       msg += '- ' + error + '\n'
     })
     msg +=  '\n' + card['shortUrl']
 
+    // Send message to configured publisher
     switch(publisher) {
       case 'slack':
         new slackPublisher({msg: msg})
