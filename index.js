@@ -38,8 +38,8 @@ setInterval(() => {
   let date = moment().tz('Asia/Kolkata')
 
   if(!pipelineConfig.defaults.weekendDays.includes(date.format('e')) &&
-     date >= moment(pipelineConfig.defaults.officeStartHour).tz('Asia/Kolkata') &&
-     date <= moment(pipelineConfig.defaults.officeEndHour).tz('Asia/Kolkata')
+     date >= moment(pipelineConfig.defaults.officeStartHour, 'h').tz('Asia/Kolkata') &&
+     date <= moment(pipelineConfig.defaults.officeEndHour, 'h').tz('Asia/Kolkata')
   ) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.
