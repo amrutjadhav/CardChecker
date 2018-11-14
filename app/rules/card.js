@@ -69,7 +69,7 @@ module.exports = {
     }
     let incompleteCount = 0
     lists.forEach((list) => {
-      let items = list['checkItems']
+      let items = list.checkItems
       items.forEach((item) => {
         if(item['state'] != 'complete') {
           incompleteCount += 1
@@ -80,6 +80,29 @@ module.exports = {
     if(incompleteCount > 0) {
       return {success: false, msg: msgTemplate.rules.card.checkListItemStateCompletion(incompleteCount)}
     }
+    return {success: true}
+  },
+
+  checkListItemWordCount: (card, options) => {
+    let lists = card.checklists
+    // if card don't have checklist items, return success.
+    if(!lists.length) {
+      return {success: true}
+    }
+    // get board configuration.
+    let config = commonUtilities.getScopeConfig(card.idBoard)
+
+    let valid = true
+    lists.forEach((list) => {
+      let items = list.checkItems
+      items.forEach((item) => {
+        let wordsCount = item.name.split(' ').length
+        if(wordsCount < config.ruleConfig.checkListItemWordCount.min)
+          valid = false
+      })
+    })
+    if(!valid)
+      return {success: false, msg: msgTemplate.rules.card.checkListItemWordCount}
     return {success: true}
   },
 
