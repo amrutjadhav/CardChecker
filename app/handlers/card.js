@@ -28,6 +28,9 @@ class Card {
 
   handlerCreateCard() {
     let card = {id: this.action.data.card.id}
+    // Don't run all the rules, right now. To create card, you only have to give title to card.
+    // Other fields have to written explicitly by opening card. So if we run validations on create,
+    // most of the it will return false.
     cardUtilities.createCardDoc(card).then((doc)=> {
       logger.info('saved card.')
     }, (error) => {

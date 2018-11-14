@@ -12,6 +12,7 @@ const template = {
       checkListItemStateCompletion: (incompleteCount) => {
         return 'When the card is moved to *In Review* list, all the checklist items in card should be get completed. There are ' + incompleteCount + ' items, which are not completed yet.'
       },
+      checkListItemWordCount: 'Please describe checklist item title in more descriptive way.',
       pullRequestRequired: 'When card moves to *In Review* list, it should have pull request attached to it.'
     }
   },
