@@ -147,27 +147,21 @@ class PipelineConfigValidator {
               'properties': {
                 'min': {'type': 'number'}
               },
-              'required': [
-                'min'
-              ]
+              'required': ['min']
             },
             'labelsRequired': {
               'description': 'labelsRequired rule configuration',
               'properties': {
                 'min': {'type': 'number'}
               },
-              'required': [
-                'min'
-              ]
+              'required': ['min']
             },
             'membersRequired': {
               'description': 'membersRequired rule configuration',
               'properties': {
                 'min': {'type': 'number'}
               },
-              'required': [
-                'min'
-              ]
+              'required': ['min']
             },
             'listOfNewCard': {
               'description': 'listOfNewCard rule configuration',
@@ -177,6 +171,13 @@ class PipelineConfigValidator {
               'required': [
                 'listName'
               ]
+            },
+            'checkListItemWordCount': {
+              'description': 'checkListItemWordCount rule configuration',
+              'properties': {
+                'min': {'type': 'number'}
+              },
+              'required': ['min']
             },
             'pullRequestRequired': {
               'description': 'pullRequestRequired rule configuration',
@@ -198,6 +199,7 @@ class PipelineConfigValidator {
             'labelsRequired',
             'membersRequired',
             'listOfNewCard',
+            'checkListItemWordCount',
             'pullRequestRequired'
           ]
         },
