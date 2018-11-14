@@ -64,7 +64,10 @@ Everyone has their own unique development flow. Keeping this mind, **CardChecker
     - *listName* - Trello board list name which acts as an entry point of a pipeline.
 9. ###### checkListItemStateCompletion
     Check whether all the checklist items are marked as complete or not.
-10. ###### pullRequestRequired
+10. ###### checkListItemWordCount
+    Check word count in the name of checklist item of a card.
+    - *min* - Configure the minimum number of words required in a name of checklist item.
+11. ###### pullRequestRequired
     Check whether pull request is attached to card as attachment or not. There are some cases, where you have a card in development which don't require to do, any coding or it don't have any pull request. So in that case, you can skip pull request check using labels. You can configure which labels you want to skip and depending on that, **CardChecker** will decide whether to check pull request or not.
     - *vcHostingDomain* - Version control hosting service domain name.
     - *ignoreLabel* - Name of label on card, which if present, you want to skip pull request check.
