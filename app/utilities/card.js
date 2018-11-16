@@ -54,12 +54,17 @@ const cardUtilities = {
   executeRules: (card, rules, options) => {
     let ticketValid = true
     let errorMessages = []
-    const cardRules = require('../rules/card')
+    let cardRules = require('../rules/card')
     rules.forEach(function(rule) {
-      let result = cardRules[rule](card, options)
-      if(!result['success']) {
-        ticketValid = false
-        errorMessages.push(result['msg'])
+      // Check if rule is present or not.
+      if(cardRules[rule]) {
+        let result = cardRules[rule](card, options)
+        if(!result['success']) {
+          ticketValid = false
+          errorMessages.push(result['msg'])
+        }
+      } else {
+        logger.error('Rule not found:', rule)
       }
     })
     return {ticketValid: ticketValid, errorMessages: errorMessages}
