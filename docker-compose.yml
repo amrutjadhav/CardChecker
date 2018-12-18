@@ -17,6 +17,3 @@ services:
     image: mongo:4.1
     ports:
       - "27017"
-
-
-
