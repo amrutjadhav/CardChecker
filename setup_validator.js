@@ -136,7 +136,7 @@ class SetupValidator {
             }
           },
           'required': [
-          'messagePublisher',
+            'messagePublisher',
             'officeStartHour',
             'officeEndHour',
             'weekendDays',
