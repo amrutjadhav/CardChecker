@@ -1,0 +1,19 @@
+version: "3"
+services:
+  card_checker:
+    image: amrut007/card-checker:latest
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
+    environment:
+      - APP_ENV=development
+      - PORT=8080
+      - DB_URI=mongo:27017/card_checker
+    volumes:
+      - ./:/usr/src/app
+    command: npm start
+  mongo:
+    image: mongo:4.1
+    ports:
+      - "27017"
