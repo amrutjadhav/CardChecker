@@ -44,7 +44,7 @@ class SetupValidator {
 
   checkPublisherWebookURL(publisher) {
     publisher = publisher.toUpperCase()
-    let webhookURL = eval('process.env.' + publisher + '_WEBHOOK_URL')
+    let webhookURL = process.env[publisher + '_WEBHOOK_URL']
     if(!webhookURL)
       this.showError('Set ' + publisher + '_WEBHOOK_URL env variable for ' + publisher + ' platform.')
   }
