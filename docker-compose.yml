@@ -1,9 +1,7 @@
 version: "3"
 services:
-  api:
-    build:
-      dockerfile: Dockerfile
-      context: .
+  card_checker:
+    image: amrut007/card_checker:latest
     ports:
       - '8080:8080'
     depends_on:
