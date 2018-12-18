@@ -1,7 +1,7 @@
 version: "3"
 services:
   card_checker:
-    image: amrut007/card_checker:latest
+    image: amrut007/card-checker:latest
     ports:
       - '8080:8080'
     depends_on:
