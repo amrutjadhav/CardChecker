@@ -1,7 +1,10 @@
 FROM node:10
 
+LABEL maintainer="Amrut Jadhav <amrutjadhav2294@gmail.com>"
+
 # Create app directory
 RUN mkdir /usr/src/app
+
 WORKDIR /usr/src/app
 
 # Install app dependencies
@@ -16,4 +19,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
+
 CMD [ "npm", "start" ]
