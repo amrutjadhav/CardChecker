@@ -1,11 +1,15 @@
-require('dotenv').config()
 const logger = require('./config/logger')
 const fs = require('fs')
 const Ajv = require('ajv')
 const ajv = Ajv({allErrors: true})
 const cardRules = require('./app/rules/card')
 
-class PipelineConfigValidator {
+/**
+ * This class validate the setup of app including pipeline_config.yml and environment variables.
+ * This gets called before app actually starts. So if something is not in orders, it halt the
+ * app starting process.
+ */
+class SetupValidator {
 
   constructor() {
     this.defaultRules = Object.keys(cardRules)
@@ -232,5 +236,5 @@ class PipelineConfigValidator {
   }
 }
 
-let validator = new PipelineConfigValidator()
+let validator = new SetupValidator()
 validator.validate()

@@ -4,7 +4,7 @@
   "description": "Trello ticket checker to maintain the ticket consistency",
   "main": "index.js",
   "scripts": {
-    "prestart": "node pipeline_config_validator.js",
+    "prestart": "node setup_validator.js",
     "start": "node index.js"
   },
   "repository": {
