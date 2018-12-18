@@ -71,5 +71,21 @@ Everyone has their own unique development flow. Keeping this mind, **CardChecker
     Check whether pull request is attached to card as attachment or not. There are some cases, where you have a card in development which don't require to do, any coding or it don't have any pull request. So in that case, you can skip pull request check using labels. You can configure which labels you want to skip and depending on that, **CardChecker** will decide whether to check pull request or not.
     - *vcHostingDomain* - Version control hosting service domain name.
     - *ignoreLabel* - Name of label on card, which if present, you want to skip pull request check.
+
+#### Deployment
+1. Docker
+    ```
+    docker run \
+    -e "TRELLO_TOKEN=<TRELLO_TOKEN>" \
+    -e "TRELLO_KEY=<TRELLO_KEY>" \
+    -e "TRELLO_CALLBACK_URL=<HOST_ADDRESS>" \
+    -e "SLACK_WEBHOOK_URL=<SLACK_INCOMING_WEBHOOK_URL>" \
+    -e "TEAMS_WEBHOOK_URL=<TEAMS_INCOMING_WEBHOOK_URL>" \
+    -e "FLOCK_WEBHOOK_URL=<FLOCK_INCOMING_WEBHOOK_URL>" \
+    -e "APP_ENV=production" \
+    -e "DB_URI=<MONGODB_HOST_URL>" \
+    amrut007/card_checker
+    ```
+
 ##### Companies using **CardChecker**
 - [HivesLab](https://www.hiveslab.com/)
