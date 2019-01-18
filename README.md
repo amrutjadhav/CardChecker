@@ -72,4 +72,4 @@ Everyone has their own unique development flow. Keeping this mind, **CardChecker
     - *vcHostingDomain* - Version control hosting service domain name.
     - *ignoreLabel* - Name of label on card, which if present, you want to skip pull request check.
 ##### Companies using **CardChecker**
-- [HivesLab](https://www.hiveslab.com/)
+- [Hives Online India Pvt. Ltd.](https://www.hiveslab.com/)
