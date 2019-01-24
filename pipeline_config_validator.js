@@ -119,6 +119,7 @@ class PipelineConfigValidator {
           'description': 'default values',
           'properties': {
             'messagePublisher': {'type': 'string'},
+            'timeZone': {'type': 'string'},
             'officeStartHour': {'type': 'string'},
             'officeEndHour': {'type': 'string'},
             'weekendDays': {
