@@ -35,11 +35,12 @@ app.post('/configure/subscribe/trello/webhook', (req, res) => {
 
 // @todo this is patch for cron job scheduling. In future use, cron instead!
 setInterval(() => {
-  let date = moment().tz('Asia/Kolkata')
+  let timeZone = pipelineConfig.defaults.timeZone;
+  let date = moment().tz(timeZone)
 
   if(!pipelineConfig.defaults.weekendDays.includes(date.format('e')) &&
-     date >= moment(pipelineConfig.defaults.officeStartHour, 'h').tz('Asia/Kolkata') &&
-     date <= moment(pipelineConfig.defaults.officeEndHour, 'h').tz('Asia/Kolkata')
+     date >= moment(pipelineConfig.defaults.officeStartHour, 'h').tz(timeZone) &&
+     date <= moment(pipelineConfig.defaults.officeEndHour, 'h').tz(timeZone)
   ) {
     // don't run checker job on Sunday and Saturday.
     // Also don't run job before 9:00 and after 20:59.
