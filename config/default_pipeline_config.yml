@@ -10,6 +10,9 @@ company:
     messagePublisher: 'slack'
     # Specify on which platform, notification should be sent. Currently, CardChecker only
     # support Slack, Teams and Flock.
+    timeZone: 'Asia/Kolkata'
+    # Specify the time zone of a company.
+    # Refer https://en.wikipedia.org/wiki/List_of_tz_database_time_zones to get time zone string.
     officeStartHour: "09:00"
     # Office start time. Please specify it in 24-hour clock time.
     officeEndHour: "20:00"
